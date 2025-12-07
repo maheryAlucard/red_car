@@ -1,5 +1,5 @@
 import { VStack } from '@/components/ui/vstack';
-import { Image } from 'expo-image';
+import { Image, ImageSource } from 'expo-image';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
 import { Pressable, ScrollView, Text, View } from 'react-native';
@@ -13,7 +13,7 @@ import Animated, {
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 interface OnboardingPage {
-  imageUri: string;
+  imageSource: ImageSource;
   headline: string;
   bodyText: string;
   showSkipInHeader: boolean;
@@ -22,20 +22,20 @@ interface OnboardingPage {
 
 const onboardingPages: OnboardingPage[] = [
   {
-    imageUri: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDDhWXvAzJ38F_e86U2yaYYUPwnUzJ696vcRfYGlmhdP2khhC4X8axtjogTdTWsCwrTBteMqePcjxjO_n7Cw0r_foiAqmGyKlg0Vzd5URlkABqHDu-MTUdeapvL5b_OgEPzJuAPSxfrMSIeCPbWeWd_sU4JGiCGiK60wqNzay89OfU1QEInrl1cOl5JW8t_Y0lAvXQhG4uAiKnqsqSByrucWWsnqwz9RGfpO_lkuphEVQhdNpbEVLwt7MOJfH10EKochiW8Mst4Kho',
+    imageSource: require('@/assets/images/onboarding/page1.png'),
     headline: 'Trouvez votre voiture',
     bodyText: 'Parcourez des centaines de véhicules disponibles à travers Madagascar en quelques clics.',
     showSkipInHeader: true,
   },
   {
-    imageUri: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDIU5hc9inCALE0SjCKQvjqPv1I69-HqBg0XfJX_ps6zE8EmIhgaUDq7AfUOrGMGXt4ZREFMrOnpVfI-NQVBLn5QOUroqkWVE4p3AVrP4yLdnC7_JM5nx8kdoCsXO2ko35Bn6QgaH1szZezVr_WDvu-Y_EWiNBy0G0AYyFhvv9Spi-CbSZ08KQBch_JSb8iaHXv_WsdvaujOn95M77R2Cuzvl1hW5ogCv73L26WTIx3bwD8dKa7Bgi3YNH-zZxsF7OibRZvo_6uwp8',
+    imageSource: require('@/assets/images/onboarding/page2.png'),
     headline: 'Louez ou Vendez Votre Véhicule',
     bodyText: "Gagnez de l'argent facilement en mettant votre voiture en location ou en vente sur notre plateforme de confiance, accessible à des milliers de clients.",
     showSkipInHeader: false,
     backgroundColor: 'bg-background-dark-alt',
   },
   {
-    imageUri: 'https://lh3.googleusercontent.com/aida-public/AB6AXuA1H229ClZpWEll_Qez6vipkYFT5R282-uLfgzZO8-6By9votRy4DHyFg9Gb3t9E01W3XKUzHFwViDZn2Nn1AAbbTWgJLeoWWdIC2X01Y5RrZxXLZQHWwYg1HUQ06o07H_iqdsxgytHgsl1qX8ioEozAjzjqPrihHLW13wmGO9uKd3ZgNQYntwh9IiCJO_SWmp8psvMZdyanV-REmJDnbglScRiiMi0xTAM5thjmd7C8beYD_8oeHG3d7yJ91AdWWbUbvGzOKB-NOw',
+    imageSource: require('@/assets/images/onboarding/page3.png'),
     headline: 'Transactions 100% Sécurisées',
     bodyText: 'Achetez, vendez et louez en toute confiance. Nous garantissons la sécurité de vos paiements et la protection de vos informations personnelles et financières.',
     showSkipInHeader: false,
@@ -45,6 +45,39 @@ const onboardingPages: OnboardingPage[] = [
 
 const AnimatedView = Animated.createAnimatedComponent(View);
 const AnimatedText = Animated.createAnimatedComponent(Text);
+
+interface OnboardingImageProps {
+  imageSource: ImageSource;
+  currentPage: number;
+  delay?: number;
+  containerClassName?: string;
+}
+
+const OnboardingImage: React.FC<OnboardingImageProps> = ({
+  imageSource,
+  currentPage,
+  delay = 300,
+  containerClassName = 'px-4 py-3',
+}) => {
+  return (
+    <View className={containerClassName}>
+      <AnimatedView
+        entering={FadeIn.delay(delay).duration(500)}
+        className="flex-col justify-end bg-transparent rounded-lg w-full min-h-80 overflow-hidden"
+      >
+        <Image
+          source={imageSource}
+          className="flex-1 rounded-lg w-full"
+          style={{ minHeight: 320 }}
+          contentFit="cover"
+          transition={200}
+          cachePolicy="memory-disk"
+          recyclingKey={currentPage.toString()}
+        />
+      </AnimatedView>
+    </View>
+  );
+};
 
 interface PageIndicatorProps {
   index: number;
@@ -139,20 +172,11 @@ const OnboardingScreen: React.FC = () => {
                   className="flex-col flex-grow justify-center"
                 >
                   {/* Image */}
-                  <View className="px-4 py-3">
-                    <AnimatedView
-                      entering={FadeIn.delay(300).duration(500)}
-                      className="flex-col justify-end bg-transparent rounded-lg w-full min-h-80 overflow-hidden"
-                    >
-                      <Image
-                        source={{ uri: currentPageData.imageUri }}
-                        className="flex-1 rounded-lg w-full"
-                        style={{ minHeight: 320 }}
-                        contentFit="cover"
-                        transition={200}
-                      />
-                    </AnimatedView>
-                  </View>
+                  <OnboardingImage
+                    imageSource={currentPageData.imageSource}
+                    currentPage={currentPage}
+                    delay={300}
+                  />
 
                   {/* Text Content */}
                   <AnimatedView
@@ -195,21 +219,14 @@ const OnboardingScreen: React.FC = () => {
                 {/* Top Section: Image */}
                 <AnimatedView
                   entering={FadeIn.delay(100).duration(400)}
-                  className="flex-col flex-grow justify-end px-4 pt-8"
+                  className="flex-col flex-grow justify-end"
                 >
-                  <View className="w-full">
-                    <View className="flex-col justify-end bg-transparent w-full min-h-[280px] overflow-hidden">
-                      <AnimatedView entering={FadeIn.delay(200).duration(500)}>
-                        <Image
-                          source={{ uri: currentPageData.imageUri }}
-                          className="flex-1 rounded-none w-full"
-                          style={{ minHeight: 280 }}
-                          contentFit="contain"
-                          transition={200}
-                        />
-                      </AnimatedView>
-                    </View>
-                  </View>
+                  <OnboardingImage
+                    imageSource={currentPageData.imageSource}
+                    currentPage={currentPage}
+                    delay={200}
+                    containerClassName="px-4 pt-8"
+                  />
                 </AnimatedView>
 
                 {/* Middle Section: Text Content */}
@@ -273,22 +290,12 @@ const OnboardingScreen: React.FC = () => {
                   className="flex-col flex-grow justify-center items-center px-4"
                 >
                   {/* Image */}
-                  <AnimatedView
-                    entering={FadeIn.delay(200).duration(500)}
-                    className="flex-grow bg-transparent py-3 w-full"
-                  >
-                    <View className="flex-row gap-1 bg-transparent w-full overflow-hidden">
-                      <AnimatedView entering={FadeIn.delay(300).duration(500)}>
-                        <Image
-                          source={{ uri: currentPageData.imageUri }}
-                          className="flex-1 rounded-none w-full"
-                          style={{ aspectRatio: 4 / 3 }}
-                          contentFit="contain"
-                          transition={200}
-                        />
-                      </AnimatedView>
-                    </View>
-                  </AnimatedView>
+                  <OnboardingImage
+                    imageSource={currentPageData.imageSource}
+                    currentPage={currentPage}
+                    delay={200}
+                    containerClassName="py-3"
+                  />
 
                   {/* Headline Text */}
                   <AnimatedText
