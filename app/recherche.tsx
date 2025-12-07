@@ -2,12 +2,10 @@ import { HStack } from '@/components/ui/hstack';
 import { VStack } from '@/components/ui/vstack';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import Constants, { ExecutionEnvironment } from 'expo-constants';
 import { Image } from 'expo-image';
-import { AppleMaps, GoogleMaps } from 'expo-maps';
-import { router, useLocalSearchParams } from 'expo-router';
+import { router } from 'expo-router';
 import React, { useState } from 'react';
-import { FlatList, Platform, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { FlatList, Pressable, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 interface SearchCar {
@@ -93,16 +91,10 @@ const filterButtons = [
     { id: 'fuel', label: 'Carburant', active: false },
 ];
 
-type ViewMode = 'Carte' | 'Liste';
-
-export default function RechercheScreen() {
+const RechercheScreen: React.FC = () => {
     const colorScheme = useColorScheme();
     const isDark = colorScheme === 'dark';
-    const params = useLocalSearchParams<{ query?: string }>();
-    const [searchQuery] = useState(params.query || '');
     const [results] = useState(mockSearchResults);
-    const [viewMode, setViewMode] = useState<ViewMode>('Carte');
-    const [selectedCar, setSelectedCar] = useState<SearchCar | null>(results[0] || null);
 
     const renderCarCard = ({ item }: { item: SearchCar }) => (
         <View className="bg-gray-800 mb-4 rounded-xl w-full overflow-hidden">
@@ -154,183 +146,6 @@ export default function RechercheScreen() {
             </View>
         </View>
     );
-
-    const renderMapView = () => {
-        // Check if running in Expo Go (maps don't work in Expo Go)
-        const isExpoGo = Constants.executionEnvironment === ExecutionEnvironment.StoreClient;
-
-        if (isExpoGo) {
-            return (
-                <View className="relative flex-1">
-                    {/* Map Placeholder for Expo Go */}
-                    <View className="flex-1 justify-center items-center bg-gray-900">
-                        <MaterialIcons name="map" size={64} color="#666" />
-                        <Text className="mt-4 px-4 text-gray-400 text-base text-center">
-                            Les cartes ne sont pas disponibles dans Expo Go
-                        </Text>
-                        <Text className="mt-2 px-4 text-gray-500 text-sm text-center">
-                            Utilisez un build de développement pour voir la carte
-                        </Text>
-                    </View>
-
-                    {/* Overlays Container: Toggle, Card */}
-                    <View className="right-0 bottom-0 left-0 z-10 absolute flex flex-col items-center gap-4 p-4">
-                        {/* Segmented Buttons: View Toggle */}
-                        <View className="flex flex-row justify-center items-center bg-black/50 p-1 rounded-xl w-full max-w-xs h-12">
-                            <Pressable
-                                onPress={() => setViewMode('Carte')}
-                                className={`flex h-full flex-1 items-center justify-center overflow-hidden rounded-lg px-2 ${viewMode === 'Carte' ? 'bg-primary' : ''
-                                    }`}
-                            >
-                                <Text
-                                    className={`truncate font-medium ${viewMode === 'Carte' ? 'text-white' : 'text-white/70'
-                                        }`}
-                                >
-                                    Carte
-                                </Text>
-                            </Pressable>
-                            <Pressable
-                                onPress={() => setViewMode('Liste')}
-                                className={`flex h-full flex-1 items-center justify-center overflow-hidden rounded-lg px-2 ${viewMode === 'Liste' ? 'bg-primary' : ''
-                                    }`}
-                            >
-                                <Text
-                                    className={`truncate font-medium ${viewMode === 'Liste' ? 'text-white' : 'text-white/70'
-                                        }`}
-                                >
-                                    Liste
-                                </Text>
-                            </Pressable>
-                        </View>
-
-                        {/* Selected Car Card */}
-                        {selectedCar && (
-                            <View className="bg-[#222222]/90 shadow-2xl p-4 rounded-xl w-full max-w-md">
-                                <View className="flex justify-between items-stretch gap-4">
-                                    <View className="flex flex-col flex-[2_2_0px] justify-between gap-3">
-                                        <View className="flex flex-col gap-1">
-                                            <Text className="font-normal text-white/60 text-sm leading-normal">
-                                                {selectedCar.transmission}
-                                            </Text>
-                                            <Text className="font-bold text-white text-lg leading-tight">
-                                                {selectedCar.name}
-                                            </Text>
-                                            <Text className="font-normal text-white/60 text-sm leading-normal">
-                                                À partir de {selectedCar.price} Ar {selectedCar.priceUnit}
-                                            </Text>
-                                        </View>
-                                        <Pressable className="flex justify-center items-center bg-primary px-4 rounded-lg w-full h-10 overflow-hidden cursor-pointer">
-                                            <Text className="font-bold text-white text-sm truncate leading-normal">
-                                                Voir les détails
-                                            </Text>
-                                        </Pressable>
-                                    </View>
-                                    <View
-                                        className="flex-1 bg-cover bg-no-repeat bg-center rounded-lg w-full"
-                                        style={{ aspectRatio: 4 / 3 }}
-                                    >
-                                        <Image
-                                            source={{ uri: selectedCar.imageUrl }}
-                                            className="rounded-lg w-full h-full"
-                                            contentFit="cover"
-                                        />
-                                    </View>
-                                </View>
-                            </View>
-                        )}
-                    </View>
-                </View>
-            );
-        }
-
-        // Use platform-specific maps for development/production builds
-        let MapComponent;
-        if (Platform.OS === 'ios') {
-            MapComponent = AppleMaps.View;
-        } else if (Platform.OS === 'android') {
-            MapComponent = GoogleMaps.View;
-        } else {
-            return (
-                <View className="flex-1 justify-center items-center">
-                    <Text className="text-white">Maps are only available on Android and iOS</Text>
-                </View>
-            );
-        }
-
-        return (
-            <View className="relative flex-1">
-                {/* Map Background */}
-                <MapComponent style={StyleSheet.absoluteFillObject} />
-
-                {/* Overlays Container: Toggle, Card */}
-                <View className="right-0 bottom-0 left-0 z-10 absolute flex flex-col items-center gap-4 p-4">
-                    {/* Segmented Buttons: View Toggle */}
-                    <View className="flex flex-row justify-center items-center bg-black/50 p-1 rounded-xl w-full max-w-xs h-12">
-                        <Pressable
-                            onPress={() => setViewMode('Carte')}
-                            className={`flex h-full flex-1 items-center justify-center overflow-hidden rounded-lg px-2 ${viewMode === 'Carte' ? 'bg-primary' : ''
-                                }`}
-                        >
-                            <Text
-                                className={`truncate font-medium ${viewMode === 'Carte' ? 'text-white' : 'text-white/70'
-                                    }`}
-                            >
-                                Carte
-                            </Text>
-                        </Pressable>
-                        <Pressable
-                            onPress={() => setViewMode('Liste')}
-                            className={`flex h-full flex-1 items-center justify-center overflow-hidden rounded-lg px-2 ${viewMode === 'Liste' ? 'bg-primary' : ''
-                                }`}
-                        >
-                            <Text
-                                className={`truncate font-medium ${viewMode === 'Liste' ? 'text-white' : 'text-white/70'
-                                    }`}
-                            >
-                                Liste
-                            </Text>
-                        </Pressable>
-                    </View>
-
-                    {/* Selected Car Card */}
-                    {selectedCar && (
-                        <View className="bg-[#222222]/90 shadow-2xl p-4 rounded-xl w-full max-w-md">
-                            <View className="flex justify-between items-stretch gap-4">
-                                <View className="flex flex-col flex-[2_2_0px] justify-between gap-3">
-                                    <View className="flex flex-col gap-1">
-                                        <Text className="font-normal text-white/60 text-sm leading-normal">
-                                            {selectedCar.transmission}
-                                        </Text>
-                                        <Text className="font-bold text-white text-lg leading-tight">
-                                            {selectedCar.name}
-                                        </Text>
-                                        <Text className="font-normal text-white/60 text-sm leading-normal">
-                                            À partir de {selectedCar.price} Ar {selectedCar.priceUnit}
-                                        </Text>
-                                    </View>
-                                    <Pressable className="flex justify-center items-center bg-primary px-4 rounded-lg w-full h-10 overflow-hidden cursor-pointer">
-                                        <Text className="font-bold text-white text-sm truncate leading-normal">
-                                            Voir les détails
-                                        </Text>
-                                    </Pressable>
-                                </View>
-                                <View
-                                    className="flex-1 bg-cover bg-no-repeat bg-center rounded-lg w-full"
-                                    style={{ aspectRatio: 4 / 3 }}
-                                >
-                                    <Image
-                                        source={{ uri: selectedCar.imageUrl }}
-                                        className="rounded-lg w-full h-full"
-                                        contentFit="cover"
-                                    />
-                                </View>
-                            </View>
-                        </View>
-                    )}
-                </View>
-            </View>
-        );
-    };
 
     const renderListView = () => (
         <>
@@ -400,17 +215,7 @@ export default function RechercheScreen() {
         <SafeAreaView className="flex-1 bg-background-light dark:bg-background-dark">
             <VStack className="flex-1">
                 {/* Top App Bar */}
-                <View
-                    className={`absolute top-0 z-20 w-full flex flex-row justify-between items-center px-4 ${viewMode === 'Carte' ? 'pt-4 pb-12' : 'py-3 bg-background-light dark:bg-background-dark/80'
-                        }`}
-                    style={
-                        viewMode === 'Carte'
-                            ? {
-                                backgroundColor: 'rgba(18, 18, 18, 0.8)',
-                            }
-                            : {}
-                    }
-                >
+                <View className="top-0 z-20 absolute flex flex-row justify-between items-center bg-background-light dark:bg-background-dark/80 px-4 py-3 w-full">
                     <Pressable
                         className="flex justify-center items-center w-12 h-12 shrink-0"
                         onPress={() => router.back()}
@@ -418,30 +223,40 @@ export default function RechercheScreen() {
                         <MaterialIcons
                             name="arrow-back"
                             size={24}
-                            color={viewMode === 'Carte' ? '#FFFFFF' : isDark ? '#F5F5F5' : '#0A0A0A'}
+                            color={isDark ? '#F5F5F5' : '#0A0A0A'}
                         />
                     </Pressable>
-                    <Text
-                        className={`flex-1 font-bold text-lg text-center leading-tight tracking-tight ${viewMode === 'Carte' ? 'text-white' : 'text-white'
-                            }`}
-                    >
+                    <Text className="flex-1 font-bold text-white text-lg text-center leading-tight tracking-tight">
                         Rechercher
                     </Text>
-                    <Pressable className="flex justify-center items-center w-12 h-12">
-                        <MaterialIcons
-                            name="tune"
-                            size={24}
-                            color={viewMode === 'Carte' ? '#FFFFFF' : isDark ? '#F5F5F5' : '#0A0A0A'}
-                        />
-                    </Pressable>
+                    <View className="flex flex-row items-center gap-2">
+                        <Pressable
+                            className="flex justify-center items-center w-12 h-12"
+                            onPress={() => router.push('/map-view')}
+                        >
+                            <MaterialIcons
+                                name="map"
+                                size={24}
+                                color={isDark ? '#F5F5F5' : '#0A0A0A'}
+                            />
+                        </Pressable>
+                        <Pressable className="flex justify-center items-center w-12 h-12">
+                            <MaterialIcons
+                                name="tune"
+                                size={24}
+                                color={isDark ? '#F5F5F5' : '#0A0A0A'}
+                            />
+                        </Pressable>
+                    </View>
                 </View>
 
                 {/* Main Content */}
-                <View className="flex-1" style={viewMode === 'Carte' ? {} : { marginTop: 0 }}>
-                    {viewMode === 'Carte' ? renderMapView() : renderListView()}
+                <View className="flex-1" style={{ marginTop: 0 }}>
+                    {renderListView()}
                 </View>
             </VStack>
         </SafeAreaView>
     );
 }
 
+export default RechercheScreen;
