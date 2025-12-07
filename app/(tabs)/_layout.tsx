@@ -4,32 +4,28 @@ import React from 'react';
 import { Platform } from 'react-native';
 
 import { HapticTab } from '@/components/haptic-tab';
-import { useColorScheme } from '@/hooks/use-color-scheme';
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
-  const isDark = colorScheme === 'dark';
-
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: '#0a7ea4', // primary color
-        tabBarInactiveTintColor: isDark ? '#9BA1A6' : '#64748b', // slate-500/slate-400
+        tabBarActiveTintColor: '#D40000', // Primary Red
+        tabBarInactiveTintColor: '#C0C0C0', // Metallic Grey
         headerShown: false,
         tabBarButton: HapticTab,
         tabBarStyle: {
           height: 80,
           paddingTop: 8,
           paddingBottom: Platform.OS === 'ios' ? 20 : 8,
-          backgroundColor: isDark ? 'rgba(15, 23, 42, 0.8)' : 'rgba(241, 245, 249, 0.8)', // slate-100/80 or background-dark/80
+          backgroundColor: 'rgba(10, 10, 10, 0.95)', // Black background with transparency
           borderTopWidth: 1,
-          borderTopColor: isDark ? 'rgba(30, 41, 59, 1)' : 'rgba(226, 232, 240, 1)', // slate-800 or slate-200
+          borderTopColor: 'rgba(192, 192, 192, 0.2)', // Metallic Grey border
           position: 'absolute',
           ...Platform.select({
             ios: {
-              shadowColor: '#000',
+              shadowColor: '#D40000',
               shadowOffset: { width: 0, height: -2 },
-              shadowOpacity: 0.1,
+              shadowOpacity: 0.3,
               shadowRadius: 8,
             },
             android: {

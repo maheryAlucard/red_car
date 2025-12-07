@@ -5,25 +5,28 @@
 
 import { Platform } from 'react-native';
 
-const tintColorLight = '#0a7ea4';
-const tintColorDark = '#fff';
+// Sports Automotive Theme - Red Car Mada
+const primaryRed = '#D40000';
+const backgroundBlack = '#0A0A0A';
+const metallicGrey = '#C0C0C0';
+const textWhite = '#FFFFFF';
 
 export const Colors = {
   light: {
-    text: '#11181C',
-    background: '#fff',
-    tint: tintColorLight,
-    icon: '#687076',
-    tabIconDefault: '#687076',
-    tabIconSelected: tintColorLight,
+    text: textWhite,
+    background: backgroundBlack,
+    tint: primaryRed,
+    icon: metallicGrey,
+    tabIconDefault: metallicGrey,
+    tabIconSelected: primaryRed,
   },
   dark: {
-    text: '#ECEDEE',
-    background: '#151718',
-    tint: tintColorDark,
-    icon: '#9BA1A6',
-    tabIconDefault: '#9BA1A6',
-    tabIconSelected: tintColorDark,
+    text: textWhite,
+    background: backgroundBlack,
+    tint: primaryRed,
+    icon: metallicGrey,
+    tabIconDefault: metallicGrey,
+    tabIconSelected: primaryRed,
   },
 };
 

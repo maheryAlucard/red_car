@@ -82,11 +82,6 @@ const OnboardingScreen: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const totalPages = onboardingPages.length;
 
-  const handleSkip = () => {
-    // Navigate to main app
-    router.replace('/(tabs)');
-  };
-
   const handleNext = () => {
     if (currentPage < totalPages - 1) {
       setCurrentPage(currentPage + 1);
