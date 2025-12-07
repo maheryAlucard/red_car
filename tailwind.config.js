@@ -20,6 +20,7 @@ module.exports = {
     extend: {
       colors: {
         primary: {
+          DEFAULT: '#d10505',
           0: 'rgb(var(--color-primary-0)/<alpha-value>)',
           50: 'rgb(var(--color-primary-50)/<alpha-value>)',
           100: 'rgb(var(--color-primary-100)/<alpha-value>)',
@@ -33,6 +34,9 @@ module.exports = {
           900: 'rgb(var(--color-primary-900)/<alpha-value>)',
           950: 'rgb(var(--color-primary-950)/<alpha-value>)',
         },
+        'background-light': '#f8f5f5',
+        'background-dark': '#121212',
+        'background-dark-alt': '#230f0f',
         secondary: {
           0: 'rgb(var(--color-secondary-0)/<alpha-value>)',
           50: 'rgb(var(--color-secondary-50)/<alpha-value>)',
@@ -178,6 +182,7 @@ module.exports = {
         heading: undefined,
         body: undefined,
         mono: undefined,
+        display: ['Plus Jakarta Sans', 'sans-serif'],
         jakarta: ['var(--font-plus-jakarta-sans)'],
         roboto: ['var(--font-roboto)'],
         code: ['var(--font-source-code-pro)'],
