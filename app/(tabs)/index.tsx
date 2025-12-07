@@ -89,11 +89,11 @@ export default function HomeScreen() {
   const handleSearch = () => {
     if (searchQuery.trim()) {
       router.push({
-        pathname: '/recherche',
+        pathname: '../recherche',
         params: { query: searchQuery.trim() },
       });
     } else {
-      router.push('/recherche');
+      router.push('../recherche');
     }
   };
 
