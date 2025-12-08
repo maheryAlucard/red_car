@@ -97,54 +97,58 @@ const RechercheScreen: React.FC = () => {
     const [results] = useState(mockSearchResults);
 
     const renderCarCard = ({ item }: { item: SearchCar }) => (
-        <View className="bg-gray-800 mb-4 rounded-xl w-full overflow-hidden">
-            <View className="flex flex-col">
-                <View className="w-full" style={{ aspectRatio: 16 / 9 }}>
-                    <Image
-                        source={{ uri: item.imageUrl }}
-                        className="w-full h-full"
-                        contentFit="cover"
-                    />
-                </View>
-                <View className="flex flex-col justify-center items-stretch gap-2 p-4 w-full">
-                    <Text className="font-bold text-white text-lg leading-tight tracking-tight">
-                        {item.name}
-                    </Text>
-                    <View className="flex flex-row items-center gap-4">
-                        <View className="flex flex-row items-center gap-1.5">
-                            <MaterialIcons name="calendar-today" size={18} color="#B0B0B0" />
-                            <Text className="text-gray-400 text-sm">{item.year}</Text>
-                        </View>
-                        <View className="flex flex-row items-center gap-1.5">
-                            <MaterialIcons name="settings" size={18} color="#B0B0B0" />
-                            <Text className="text-gray-400 text-sm">{item.transmission}</Text>
-                        </View>
-                        <View className="flex flex-row items-center gap-1.5">
-                            {item.fuel === 'Électrique' ? (
-                                <MaterialIcons name="bolt" size={18} color="#B0B0B0" />
-                            ) : (
-                                <MaterialIcons name="local-gas-station" size={18} color="#B0B0B0" />
-                            )}
-                            <Text className="text-gray-400 text-sm">{item.fuel}</Text>
-                        </View>
+        <Pressable
+            onPress={() => router.push({ pathname: '/car-detail', params: { carId: item.id } })}
+        >
+            <View className="bg-gray-800 mb-4 rounded-xl w-full overflow-hidden">
+                <View className="flex flex-col">
+                    <View className="w-full" style={{ aspectRatio: 16 / 9 }}>
+                        <Image
+                            source={{ uri: item.imageUrl }}
+                            className="w-full h-full"
+                            contentFit="cover"
+                        />
                     </View>
-                    <View className="flex flex-row justify-between items-end mt-2">
-                        <View className="flex flex-row items-center gap-2">
-                            <MaterialIcons name="location-on" size={18} color="#B0B0B0" />
-                            <Text className="font-normal text-gray-400 text-base leading-normal">
-                                {item.location}
-                            </Text>
+                    <View className="flex flex-col justify-center items-stretch gap-2 p-4 w-full">
+                        <Text className="font-bold text-white text-lg leading-tight tracking-tight">
+                            {item.name}
+                        </Text>
+                        <View className="flex flex-row items-center gap-4">
+                            <View className="flex flex-row items-center gap-1.5">
+                                <MaterialIcons name="calendar-today" size={18} color="#B0B0B0" />
+                                <Text className="text-gray-400 text-sm">{item.year}</Text>
+                            </View>
+                            <View className="flex flex-row items-center gap-1.5">
+                                <MaterialIcons name="settings" size={18} color="#B0B0B0" />
+                                <Text className="text-gray-400 text-sm">{item.transmission}</Text>
+                            </View>
+                            <View className="flex flex-row items-center gap-1.5">
+                                {item.fuel === 'Électrique' ? (
+                                    <MaterialIcons name="bolt" size={18} color="#B0B0B0" />
+                                ) : (
+                                    <MaterialIcons name="local-gas-station" size={18} color="#B0B0B0" />
+                                )}
+                                <Text className="text-gray-400 text-sm">{item.fuel}</Text>
+                            </View>
                         </View>
-                        <View className="flex flex-row items-baseline">
-                            <Text className="font-bold text-primary text-xl leading-normal">
-                                {item.price} Ar{' '}
-                            </Text>
-                            <Text className="font-normal text-gray-400 text-base">{item.priceUnit}</Text>
+                        <View className="flex flex-row justify-between items-end mt-2">
+                            <View className="flex flex-row items-center gap-2">
+                                <MaterialIcons name="location-on" size={18} color="#B0B0B0" />
+                                <Text className="font-normal text-gray-400 text-base leading-normal">
+                                    {item.location}
+                                </Text>
+                            </View>
+                            <View className="flex flex-row items-baseline">
+                                <Text className="font-bold text-primary text-xl leading-normal">
+                                    {item.price} Ar{' '}
+                                </Text>
+                                <Text className="font-normal text-gray-400 text-base">{item.priceUnit}</Text>
+                            </View>
                         </View>
                     </View>
                 </View>
             </View>
-        </View>
+        </Pressable>
     );
 
     const renderListView = () => (

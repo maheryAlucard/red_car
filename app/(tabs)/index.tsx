@@ -166,32 +166,36 @@ export default function HomeScreen() {
           >
             <HStack className="items-stretch" space="md">
               {featuredCars.map((car) => (
-                <VStack
+                <Pressable
                   key={car.id}
-                  className="flex flex-col flex-1 rounded-lg min-w-[256px] h-full"
-                  space="md"
+                  onPress={() => router.push({ pathname: '/car-detail', params: { carId: car.id } })}
                 >
-                  <View className="relative rounded-xl w-full overflow-hidden" style={{ aspectRatio: 16 / 9 }}>
-                    <Image
-                      source={{ uri: car.imageUrl }}
-                      className="w-full h-full"
-                      contentFit="cover"
-                    />
-                    <View className="top-2 right-2 absolute bg-primary/90 rounded-full">
-                      <Text className="px-2 py-1 font-semibold text-white text-xs">
-                        {car.type}
-                      </Text>
+                  <VStack
+                    className="flex flex-col flex-1 rounded-lg min-w-[256px] h-full"
+                    space="md"
+                  >
+                    <View className="relative rounded-xl w-full overflow-hidden" style={{ aspectRatio: 16 / 9 }}>
+                      <Image
+                        source={{ uri: car.imageUrl }}
+                        className="w-full h-full"
+                        contentFit="cover"
+                      />
+                      <View className="top-2 right-2 absolute bg-primary/90 rounded-full">
+                        <Text className="px-2 py-1 font-semibold text-white text-xs">
+                          {car.type}
+                        </Text>
+                      </View>
                     </View>
-                  </View>
-                  <VStack space="xs">
-                    <Text className="font-bold text-slate-900 dark:text-white text-base leading-normal">
-                      {car.name}
-                    </Text>
-                    <Text className="font-normal text-slate-600 dark:text-slate-400 text-sm leading-normal">
-                      {car.price} • {car.location}
-                    </Text>
+                    <VStack space="xs">
+                      <Text className="font-bold text-slate-900 dark:text-white text-base leading-normal">
+                        {car.name}
+                      </Text>
+                      <Text className="font-normal text-slate-600 dark:text-slate-400 text-sm leading-normal">
+                        {car.price} • {car.location}
+                      </Text>
+                    </VStack>
                   </VStack>
-                </VStack>
+                </Pressable>
               ))}
             </HStack>
           </ScrollView>
@@ -204,30 +208,34 @@ export default function HomeScreen() {
           {/* Vertical List: Récemment Ajoutées */}
           <VStack className="px-4 pb-6" space="md">
             {recentCars.map((car) => (
-              <HStack
+              <Pressable
                 key={car.id}
-                className="items-center bg-slate-100 dark:bg-gray-800/40 p-2 rounded-xl"
-                space="md"
+                onPress={() => router.push({ pathname: '/car-detail', params: { carId: car.id } })}
               >
-                <View className="rounded-lg w-24 h-20 overflow-hidden">
-                  <Image
-                    source={{ uri: car.imageUrl }}
-                    className="w-full h-full"
-                    contentFit="cover"
-                  />
-                </View>
-                <VStack className="flex-1" space="xs">
-                  <Text className="font-bold text-slate-900 dark:text-white text-base leading-normal">
-                    {car.name}
-                  </Text>
-                  <Text className="font-normal text-slate-600 dark:text-slate-400 text-sm leading-normal">
-                    {car.price} • {car.location}
-                  </Text>
-                  <Text className="mt-1 font-medium text-primary text-xs leading-normal">
-                    {car.type}
-                  </Text>
-                </VStack>
-              </HStack>
+                <HStack
+                  className="items-center bg-slate-100 dark:bg-gray-800/40 p-2 rounded-xl"
+                  space="md"
+                >
+                  <View className="rounded-lg w-24 h-20 overflow-hidden">
+                    <Image
+                      source={{ uri: car.imageUrl }}
+                      className="w-full h-full"
+                      contentFit="cover"
+                    />
+                  </View>
+                  <VStack className="flex-1" space="xs">
+                    <Text className="font-bold text-slate-900 dark:text-white text-base leading-normal">
+                      {car.name}
+                    </Text>
+                    <Text className="font-normal text-slate-600 dark:text-slate-400 text-sm leading-normal">
+                      {car.price} • {car.location}
+                    </Text>
+                    <Text className="mt-1 font-medium text-primary text-xs leading-normal">
+                      {car.type}
+                    </Text>
+                  </VStack>
+                </HStack>
+              </Pressable>
             ))}
           </VStack>
         </ScrollView>

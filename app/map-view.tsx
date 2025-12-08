@@ -124,7 +124,10 @@ const MapViewScreen: React.FC = () => {
                                                 À partir de {selectedCar.price} Ar {selectedCar.priceUnit}
                                             </Text>
                                         </View>
-                                        <Pressable className="flex justify-center items-center bg-primary px-4 rounded-lg w-full h-10 overflow-hidden cursor-pointer">
+                                        <Pressable
+                                            className="flex justify-center items-center bg-primary px-4 rounded-lg w-full h-10 overflow-hidden cursor-pointer"
+                                            onPress={() => router.push({ pathname: '/car-detail', params: { carId: selectedCar.id } })}
+                                        >
                                             <Text className="font-bold text-white text-sm truncate leading-normal">
                                                 Voir les détails
                                             </Text>
@@ -184,7 +187,10 @@ const MapViewScreen: React.FC = () => {
                                             À partir de {selectedCar.price} Ar {selectedCar.priceUnit}
                                         </Text>
                                     </View>
-                                    <Pressable className="flex justify-center items-center bg-primary px-4 rounded-lg w-full h-10 overflow-hidden cursor-pointer">
+                                    <Pressable
+                                        className="flex justify-center items-center bg-primary px-4 rounded-lg w-full h-10 overflow-hidden cursor-pointer"
+                                        onPress={() => router.push({ pathname: '/car-detail', params: { carId: selectedCar.id } })}
+                                    >
                                         <Text className="font-bold text-white text-sm truncate leading-normal">
                                             Voir les détails
                                         </Text>
