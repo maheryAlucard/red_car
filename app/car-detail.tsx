@@ -1,7 +1,7 @@
+import { CarImageCarousel } from '@/components/car-image-carousel';
 import { VStack } from '@/components/ui/vstack';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import { Image } from 'expo-image';
 import { router, useLocalSearchParams } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { Dimensions, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
@@ -45,6 +45,8 @@ const mockCarData: CarDetail = {
         'Découvrez la puissance brute et le style emblématique de la Ford Mustang GT. Avec son moteur V8 performant et son design agressif, cette icône américaine offre une expérience de conduite inoubliable. Parfaitement entretenue, elle est prête à prendre la route pour une location exaltante ou un achat passionné.',
     images: [
         'https://lh3.googleusercontent.com/aida-public/AB6AXuCQDwO5G1gCA7yYZZqiUsS1iHNZCgRKxLlhuDbM4l6z-BwujjB57niW7lT3NCCvb8v78fkcHrSWR7iEWilkA9GR_O0HsVQ_5SMVVi-l5wF0J7ATfgEALhtsudsa6da3mmsTuZeGDr1tDIuKwbm-ywLzoZhdTWRgmQHDOOTxLTTHjp3v_aOUqO-xu3SJGCBhKikCFg_e2VAT9Z-X7v67PD5GN8omQKwSqLAfNlataVKMfCPVmGrOfn7MO2Iw6sR2CRTiF3dpfQG81BE',
+        'https://lh3.googleusercontent.com/aida-public/AB6AXuCQDwO5G1gCA7yYZZqiUsS1iHNZCgRKxLlhuDbM4l6z-BwujjB57niW7lT3NCCvb8v78fkcHrSWR7iEWilkA9GR_O0HsVQ_5SMVVi-l5wF0J7ATfgEALhtsudsa6da3mmsTuZeGDr1tDIuKwbm-ywLzoZhdTWRgmQHDOOTxLTTHjp3v_aOUqO-xu3SJGCBhKikCFg_e2VAT9Z-X7v67PD5GN8omQKwSqLAfNlataVKMfCPVmGrOfn7MO2Iw6sR2CRTiF3dpfQG81BE',
+        'https://lh3.googleusercontent.com/aida-public/AB6AXuCQDwO5G1gCA7yYZZqiUsS1iHNZCgRKxLlhuDbM4l6z-BwujjB57niW7lT3NCCvb8v78fkcHrSWR7iEWilkA9GR_O0HsVQ_5SMVVi-l5wF0J7ATfgEALhtsudsa6da3mmsTuZeGDr1tDIuKwbm-ywLzoZhdTWRgmQHDOOTxLTTHjp3v_aOUqO-xu3SJGCBhKikCFg_e2VAT9Z-X7v67PD5GN8omQKwSqLAfNlataVKMfCPVmGrOfn7MO2Iw6sR2CRTiF3dpfQG81BE',
     ],
 };
 
@@ -56,15 +58,14 @@ const CarDetailScreen: React.FC = () => {
     const params = useLocalSearchParams<{ carId?: string }>();
     const insets = useSafeAreaInsets();
     const [activeTab, setActiveTab] = useState<TabType>('Description');
-    const [currentImageIndex, setCurrentImageIndex] = useState(0);
-    
+
     // Animation values
     const screenWidth = Dimensions.get('window').width;
     const tabWidth = screenWidth / 3;
     const indicatorPosition = useSharedValue(0);
     const contentOpacity = useSharedValue(1);
     const contentTranslateY = useSharedValue(0);
-    
+
     // Tab scale animations
     const descScale = useSharedValue(1);
     const specScale = useSharedValue(1);
@@ -101,7 +102,7 @@ const CarDetailScreen: React.FC = () => {
             damping: 15,
             stiffness: 200,
         });
-        
+
         // Animate tab scales
         descScale.value = withSpring(activeTab === 'Description' ? 1.05 : 1, {
             damping: 15,
@@ -115,7 +116,7 @@ const CarDetailScreen: React.FC = () => {
             damping: 15,
             stiffness: 150,
         });
-        
+
         // Animate content transition
         contentOpacity.value = withTiming(0, { duration: 150 }, () => {
             contentOpacity.value = withTiming(1, { duration: 200 });
@@ -174,40 +175,11 @@ const CarDetailScreen: React.FC = () => {
                 >
                     {/* Header Image Carousel */}
                     <View className="px-4 py-3">
-                        <View
-                            className="flex flex-col justify-end rounded-xl min-h-80 overflow-hidden"
-                            style={{ aspectRatio: 16 / 9 }}
-                        >
-                            <Image
-                                source={{ uri: images[currentImageIndex] }}
-                                className="w-full h-full"
-                                contentFit="cover"
-                                style={{
-                                    position: 'absolute',
-                                    width: '100%',
-                                    height: '100%',
-                                }}
-                            />
-                            {/* Gradient overlay */}
-                            <View
-                                className="right-0 bottom-0 left-0 absolute h-32"
-                                style={{
-                                    backgroundColor: 'rgba(0, 0, 0, 0.4)',
-                                }}
-                            />
-                            {/* Image indicators */}
-                            <View className="z-10 flex flex-row justify-center gap-2 p-5">
-                                {images.map((_, index) => (
-                                    <View
-                                        key={index}
-                                        className={`h-1.5 rounded-full ${index === currentImageIndex
-                                                ? 'w-6 bg-white'
-                                                : 'w-1.5 bg-white opacity-50'
-                                            }`}
-                                    />
-                                ))}
-                            </View>
-                        </View>
+                        <CarImageCarousel
+                            images={images}
+                            height={Dimensions.get('screen').width * 0.6}
+                            showPagination={true}
+                        />
                     </View>
 
                     {/* Headline Text */}
@@ -281,7 +253,7 @@ const CarDetailScreen: React.FC = () => {
                                     })),
                                 ]}
                             />
-                            
+
                             <Pressable
                                 className="flex-1 px-4 py-3"
                                 onPress={() => setActiveTab('Description')}
