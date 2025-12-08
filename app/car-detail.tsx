@@ -86,8 +86,14 @@ const CarDetailScreen: React.FC = () => {
     };
 
     const handleRent = () => {
-        // Implement rent functionality
-        console.log('Rent car:', car.id);
+        // Navigate to rent page with car data
+        router.push({
+            pathname: '/rent',
+            params: {
+                carId: car.id,
+                rentalPrice: car.rentalPrice,
+            },
+        });
     };
 
     const handleMakeOffer = () => {
