@@ -150,7 +150,7 @@ const RechercheScreen: React.FC = () => {
     const renderListView = () => (
         <>
             {/* Filters */}
-            <View className="px-4 pb-2">
+            <View className="mt-8 px-4 pb-2">
                 <ScrollView
                     horizontal
                     showsHorizontalScrollIndicator={false}
@@ -163,17 +163,19 @@ const RechercheScreen: React.FC = () => {
                                 className={`flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-lg px-4 ${filter.active ? 'bg-primary' : 'bg-gray-800'
                                     }`}
                             >
-                                <Text
-                                    className={`text-sm font-medium leading-normal ${filter.active ? 'text-white' : 'text-white'
-                                        }`}
-                                >
-                                    {filter.label}
-                                </Text>
-                                <MaterialIcons
-                                    name="expand-more"
-                                    size={20}
-                                    color={filter.active ? '#FFFFFF' : '#F5F5F5'}
-                                />
+                                <HStack space='sm'>
+                                    <Text
+                                        className={`text-sm font-medium leading-normal ${filter.active ? 'text-white' : 'text-white'
+                                            }`}
+                                    >
+                                        {filter.label}
+                                    </Text>
+                                    <MaterialIcons
+                                        name="expand-more"
+                                        size={20}
+                                        color={filter.active ? '#FFFFFF' : '#F5F5F5'}
+                                    />
+                                </HStack>
                             </Pressable>
                         ))}
                     </HStack>
@@ -215,7 +217,7 @@ const RechercheScreen: React.FC = () => {
         <SafeAreaView className="flex-1 bg-background-light dark:bg-background-dark">
             <VStack className="flex-1">
                 {/* Top App Bar */}
-                <View className="top-0 z-20 absolute flex flex-row justify-between items-center bg-background-light dark:bg-background-dark/80 px-4 py-3 w-full">
+                <View className="flex flex-row justify-between items-center bg-background-light dark:bg-background-dark/80 px-4 w-full">
                     <Pressable
                         className="flex justify-center items-center w-12 h-12 shrink-0"
                         onPress={() => router.back()}

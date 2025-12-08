@@ -136,17 +136,11 @@ export default function HomeScreen() {
                 size="xl"
                 className="bg-slate-200 dark:bg-gray-800/50 border-none rounded-lg"
               >
-                <InputSlot className="pl-4">
-                  <InputIcon>
-                    <MaterialIcons
-                      name="search"
-                      size={20}
-                      color={isDark ? '#64748B' : '#94A3B8'}
-                    />
-                  </InputIcon>
+                <InputSlot className="pl-2">
+                  <InputIcon as={() => <MaterialIcons name="search" size={20} color={isDark ? '#64748B' : '#94A3B8'} />} size="md" />
                 </InputSlot>
                 <InputField
-                  placeholder="Rechercher une marque, un modèle..."
+                  placeholder="Rechercher..."
                   placeholderTextColor={isDark ? '#64748B' : '#94A3B8'}
                   className="bg-transparent pl-2 border-none rounded-l-none text-slate-900 dark:text-white"
                   value={searchQuery}
