@@ -161,43 +161,38 @@ export default function HomeScreen() {
           <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
-            className="flex-row"
-            contentContainerStyle={{ paddingLeft: 16, paddingRight: 4 }}
+            contentContainerStyle={{ paddingLeft: 16, paddingRight: 16, gap: 16 }}
           >
-            <HStack className="items-stretch" space="md">
-              {featuredCars.map((car) => (
-                <Pressable
-                  key={car.id}
-                  onPress={() => router.push({ pathname: '/car-detail', params: { carId: car.id } })}
-                >
-                  <VStack
-                    className="flex flex-col flex-1 rounded-lg min-w-[256px] h-full"
-                    space="md"
-                  >
-                    <View className="relative rounded-xl w-full overflow-hidden" style={{ aspectRatio: 16 / 9 }}>
-                      <Image
-                        source={{ uri: car.imageUrl }}
-                        className="w-full h-full"
-                        contentFit="cover"
-                      />
-                      <View className="top-2 right-2 absolute bg-primary/90 rounded-full">
-                        <Text className="px-2 py-1 font-semibold text-white text-xs">
-                          {car.type}
-                        </Text>
-                      </View>
+            {featuredCars.map((car, index) => (
+              <Pressable
+                key={car.id}
+                onPress={() => router.push({ pathname: '/car-detail', params: { carId: car.id } })}
+                style={{ width: 256, marginRight: index < featuredCars.length - 1 ? 16 : 0 }}
+              >
+                <View className="flex flex-col rounded-lg">
+                  <View className="relative rounded-xl w-full overflow-hidden" style={{ aspectRatio: 16 / 9 }}>
+                    <Image
+                      source={{ uri: car.imageUrl }}
+                      className="w-full h-full"
+                      contentFit="cover"
+                    />
+                    <View className="top-2 right-2 absolute bg-primary/90 rounded-full">
+                      <Text className="px-2 py-1 font-semibold text-white text-xs">
+                        {car.type}
+                      </Text>
                     </View>
-                    <VStack space="xs">
-                      <Text className="font-bold text-slate-900 dark:text-white text-base leading-normal">
-                        {car.name}
-                      </Text>
-                      <Text className="font-normal text-slate-600 dark:text-slate-400 text-sm leading-normal">
-                        {car.price} • {car.location}
-                      </Text>
-                    </VStack>
-                  </VStack>
-                </Pressable>
-              ))}
-            </HStack>
+                  </View>
+                  <View className="flex flex-col gap-1 mt-3">
+                    <Text className="font-bold text-slate-900 dark:text-white text-base leading-normal">
+                      {car.name}
+                    </Text>
+                    <Text className="font-normal text-slate-600 dark:text-slate-400 text-sm leading-normal">
+                      {car.price} • {car.location}
+                    </Text>
+                  </View>
+                </View>
+              </Pressable>
+            ))}
           </ScrollView>
 
           {/* Section Header: Récemment Ajoutées */}

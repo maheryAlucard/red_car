@@ -3,8 +3,14 @@ import { useColorScheme } from '@/hooks/use-color-scheme';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { Image } from 'expo-image';
 import { router, useLocalSearchParams } from 'expo-router';
-import React, { useState } from 'react';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Dimensions, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import Animated, {
+    useAnimatedStyle,
+    useSharedValue,
+    withSpring,
+    withTiming,
+} from 'react-native-reanimated';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 
 interface CarDetail {
@@ -51,6 +57,18 @@ const CarDetailScreen: React.FC = () => {
     const insets = useSafeAreaInsets();
     const [activeTab, setActiveTab] = useState<TabType>('Description');
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
+    
+    // Animation values
+    const screenWidth = Dimensions.get('window').width;
+    const tabWidth = screenWidth / 3;
+    const indicatorPosition = useSharedValue(0);
+    const contentOpacity = useSharedValue(1);
+    const contentTranslateY = useSharedValue(0);
+    
+    // Tab scale animations
+    const descScale = useSharedValue(1);
+    const specScale = useSharedValue(1);
+    const avisScale = useSharedValue(1);
 
     // In a real app, fetch car data based on params.carId
     const car = mockCarData;
@@ -75,6 +93,37 @@ const CarDetailScreen: React.FC = () => {
         // Implement make offer functionality
         console.log('Make offer for car:', car.id);
     };
+
+    // Update indicator position when tab changes
+    useEffect(() => {
+        const tabIndex = activeTab === 'Description' ? 0 : activeTab === 'Spécifications' ? 1 : 2;
+        indicatorPosition.value = withSpring(tabIndex * tabWidth, {
+            damping: 15,
+            stiffness: 200,
+        });
+        
+        // Animate tab scales
+        descScale.value = withSpring(activeTab === 'Description' ? 1.05 : 1, {
+            damping: 15,
+            stiffness: 150,
+        });
+        specScale.value = withSpring(activeTab === 'Spécifications' ? 1.05 : 1, {
+            damping: 15,
+            stiffness: 150,
+        });
+        avisScale.value = withSpring(activeTab === 'Avis' ? 1.05 : 1, {
+            damping: 15,
+            stiffness: 150,
+        });
+        
+        // Animate content transition
+        contentOpacity.value = withTiming(0, { duration: 150 }, () => {
+            contentOpacity.value = withTiming(1, { duration: 200 });
+        });
+        contentTranslateY.value = withTiming(10, { duration: 150 }, () => {
+            contentTranslateY.value = withTiming(0, { duration: 200 });
+        });
+    }, [activeTab]);
 
     const getFuelIcon = () => {
         switch (car.fuel) {
@@ -216,59 +265,91 @@ const CarDetailScreen: React.FC = () => {
 
                     {/* Tabbed Information Panel */}
                     <View className="px-4 py-6">
-                        <View className="flex flex-row border-zinc-800 border-b">
+                        <View className="relative flex flex-row border-zinc-800 border-b">
+                            {/* Animated Indicator */}
+                            <Animated.View
+                                style={[
+                                    {
+                                        position: 'absolute',
+                                        bottom: 0,
+                                        height: 2,
+                                        width: tabWidth,
+                                        backgroundColor: '#D40000',
+                                    },
+                                    useAnimatedStyle(() => ({
+                                        transform: [{ translateX: indicatorPosition.value }],
+                                    })),
+                                ]}
+                            />
+                            
                             <Pressable
-                                className="flex-1 px-4 py-3 border-b-2"
-                                style={{
-                                    borderBottomColor:
-                                        activeTab === 'Description' ? '#D40000' : 'transparent',
-                                }}
+                                className="flex-1 px-4 py-3"
                                 onPress={() => setActiveTab('Description')}
                             >
-                                <Text
-                                    className={`text-sm text-center ${activeTab === 'Description'
-                                            ? 'text-primary font-bold'
-                                            : 'text-zinc-400 font-medium'
-                                        }`}
+                                <Animated.Text
+                                    style={[
+                                        {
+                                            fontSize: 14,
+                                            textAlign: 'center',
+                                            fontWeight: activeTab === 'Description' ? 'bold' : '500',
+                                            color: activeTab === 'Description' ? '#D40000' : '#71717A',
+                                        },
+                                        useAnimatedStyle(() => ({
+                                            transform: [{ scale: descScale.value }],
+                                        })),
+                                    ]}
                                 >
                                     Description
-                                </Text>
+                                </Animated.Text>
                             </Pressable>
                             <Pressable
-                                className="flex-1 px-4 py-3 border-b-2"
-                                style={{
-                                    borderBottomColor:
-                                        activeTab === 'Spécifications' ? '#D40000' : 'transparent',
-                                }}
+                                className="flex-1 px-4 py-3"
                                 onPress={() => setActiveTab('Spécifications')}
                             >
-                                <Text
-                                    className={`text-sm text-center ${activeTab === 'Spécifications'
-                                            ? 'text-primary font-bold'
-                                            : 'text-zinc-400 font-medium'
-                                        }`}
+                                <Animated.Text
+                                    style={[
+                                        {
+                                            fontSize: 14,
+                                            textAlign: 'center',
+                                            fontWeight: activeTab === 'Spécifications' ? 'bold' : '500',
+                                            color: activeTab === 'Spécifications' ? '#D40000' : '#71717A',
+                                        },
+                                        useAnimatedStyle(() => ({
+                                            transform: [{ scale: specScale.value }],
+                                        })),
+                                    ]}
                                 >
                                     Spécifications
-                                </Text>
+                                </Animated.Text>
                             </Pressable>
                             <Pressable
-                                className="flex-1 px-4 py-3 border-b-2"
-                                style={{
-                                    borderBottomColor: activeTab === 'Avis' ? '#D40000' : 'transparent',
-                                }}
+                                className="flex-1 px-4 py-3"
                                 onPress={() => setActiveTab('Avis')}
                             >
-                                <Text
-                                    className={`text-sm text-center ${activeTab === 'Avis'
-                                            ? 'text-primary font-bold'
-                                            : 'text-zinc-400 font-medium'
-                                        }`}
+                                <Animated.Text
+                                    style={[
+                                        {
+                                            fontSize: 14,
+                                            textAlign: 'center',
+                                            fontWeight: activeTab === 'Avis' ? 'bold' : '500',
+                                            color: activeTab === 'Avis' ? '#D40000' : '#71717A',
+                                        },
+                                        useAnimatedStyle(() => ({
+                                            transform: [{ scale: avisScale.value }],
+                                        })),
+                                    ]}
                                 >
                                     Avis
-                                </Text>
+                                </Animated.Text>
                             </Pressable>
                         </View>
-                        <View className="pt-4">
+                        <Animated.View
+                            className="pt-4"
+                            style={useAnimatedStyle(() => ({
+                                opacity: contentOpacity.value,
+                                transform: [{ translateY: contentTranslateY.value }],
+                            }))}
+                        >
                             {activeTab === 'Description' && (
                                 <Text className="text-zinc-300 text-base leading-relaxed">
                                     {car.description}
@@ -284,7 +365,7 @@ const CarDetailScreen: React.FC = () => {
                                     Avis des clients à venir...
                                 </Text>
                             )}
-                        </View>
+                        </Animated.View>
                     </View>
                 </ScrollView>
 
