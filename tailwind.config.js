@@ -37,6 +37,9 @@ module.exports = {
         'background-light': '#0A0A0A',
         'background-dark': '#0A0A0A',
         'background-dark-alt': '#0A0A0A',
+        'surface-dark': '#151515',
+        metallic: '#C0C0C0',
+        'border-subtle': '#333333',
         secondary: {
           0: 'rgb(var(--color-secondary-0)/<alpha-value>)',
           50: 'rgb(var(--color-secondary-50)/<alpha-value>)',
