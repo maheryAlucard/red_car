@@ -3,11 +3,16 @@ import { useColorScheme } from '@/hooks/use-color-scheme';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import Constants, { ExecutionEnvironment } from 'expo-constants';
 import { Image } from 'expo-image';
-import { AppleMaps, GoogleMaps } from 'expo-maps';
 import { router, useLocalSearchParams } from 'expo-router';
-import React, { useState } from 'react';
-import { Platform, Pressable, StyleSheet, Text, View } from 'react-native';
+import React, { Suspense, lazy, useState } from 'react';
+import { Platform, Pressable, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+
+// Set to false when ready to show the real map (requires dev build, not Expo Go)
+const MAP_HIDDEN_WHILE_CODING = true;
+
+// expo-maps has native code NOT included in Expo Go — only load it in dev/production builds (iOS/Android)
+const MapViewNative = lazy(() => import('./map-view-native'));
 
 interface SearchCar {
     id: string;
@@ -90,10 +95,10 @@ const MapViewScreen: React.FC = () => {
     const [selectedCar, setSelectedCar] = useState<SearchCar | null>(mockSearchResults[0] || null);
 
     const renderMapView = () => {
-        // Check if running in Expo Go (maps don't work in Expo Go)
+        // Check if running in Expo Go (maps don't work in Expo Go) or map is temporarily hidden
         const isExpoGo = Constants.executionEnvironment === ExecutionEnvironment.StoreClient;
 
-        if (isExpoGo) {
+        if (MAP_HIDDEN_WHILE_CODING || isExpoGo) {
             return (
                 <View className="relative flex-1">
                     {/* Map Placeholder for Expo Go */}
@@ -151,13 +156,11 @@ const MapViewScreen: React.FC = () => {
             );
         }
 
-        // Use platform-specific maps for development/production builds
-        let MapComponent;
-        if (Platform.OS === 'ios') {
-            MapComponent = AppleMaps.View;
-        } else if (Platform.OS === 'android') {
-            MapComponent = GoogleMaps.View;
-        } else {
+        // Only load expo-maps (MapViewNative) on iOS/Android with a dev or production build — never in Expo Go or on web
+        const canUseNativeMaps =
+            (Platform.OS === 'ios' || Platform.OS === 'android');
+
+        if (!canUseNativeMaps) {
             return (
                 <View className="flex-1 justify-center items-center">
                     <Text className="text-white">Maps are only available on Android and iOS</Text>
@@ -166,51 +169,15 @@ const MapViewScreen: React.FC = () => {
         }
 
         return (
-            <View className="relative flex-1">
-                {/* Map Background */}
-                <MapComponent style={StyleSheet.absoluteFillObject} />
-
-                {/* Selected Car Card */}
-                {selectedCar && (
-                    <View className="right-0 bottom-0 left-0 z-10 absolute flex flex-col items-center gap-4 p-4">
-                        <View className="bg-[#222222]/90 shadow-2xl p-4 rounded-xl w-full max-w-md">
-                            <View className="flex justify-between items-stretch gap-4">
-                                <View className="flex flex-col flex-[2_2_0px] justify-between gap-3">
-                                    <View className="flex flex-col gap-1">
-                                        <Text className="font-normal text-white/60 text-sm leading-normal">
-                                            {selectedCar.transmission}
-                                        </Text>
-                                        <Text className="font-bold text-white text-lg leading-tight">
-                                            {selectedCar.name}
-                                        </Text>
-                                        <Text className="font-normal text-white/60 text-sm leading-normal">
-                                            À partir de {selectedCar.price} Ar {selectedCar.priceUnit}
-                                        </Text>
-                                    </View>
-                                    <Pressable
-                                        className="flex justify-center items-center bg-primary px-4 rounded-lg w-full h-10 overflow-hidden cursor-pointer"
-                                        onPress={() => router.push({ pathname: '/car-detail', params: { carId: selectedCar.id } })}
-                                    >
-                                        <Text className="font-bold text-white text-sm truncate leading-normal">
-                                            Voir les détails
-                                        </Text>
-                                    </Pressable>
-                                </View>
-                                <View
-                                    className="flex-1 bg-cover bg-no-repeat bg-center rounded-lg w-full"
-                                    style={{ aspectRatio: 4 / 3 }}
-                                >
-                                    <Image
-                                        source={{ uri: selectedCar.imageUrl }}
-                                        className="rounded-lg w-full h-full"
-                                        contentFit="cover"
-                                    />
-                                </View>
-                            </View>
-                        </View>
+            <Suspense
+                fallback={
+                    <View className="flex-1 justify-center items-center bg-gray-900">
+                        <Text className="text-gray-400">Chargement de la carte…</Text>
                     </View>
-                )}
-            </View>
+                }
+            >
+                <MapViewNative selectedCar={selectedCar} />
+            </Suspense>
         );
     };
 

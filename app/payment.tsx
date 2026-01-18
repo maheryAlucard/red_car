@@ -62,7 +62,7 @@ const PaymentScreen: React.FC = () => {
     const colorScheme = useColorScheme();
     const isDark = colorScheme === 'dark';
     const insets = useSafeAreaInsets();
-    const params = useLocalSearchParams<PaymentParams>();
+    const params = useLocalSearchParams() as PaymentParams;
 
     const [selectedMethod, setSelectedMethod] = useState<string>(PAYMENT_OPTIONS[0].id);
 
@@ -99,7 +99,7 @@ const PaymentScreen: React.FC = () => {
         <SafeAreaView className="flex-1 bg-background-light dark:bg-background-dark">
             <VStack className="flex-1">
                 {/* Top App Bar */}
-                <View className="top-0 z-10 sticky flex flex-row items-center px-4 py-3 bg-background-light dark:bg-background-dark/90">
+                <View className="top-0 z-10 sticky flex flex-row items-center bg-background-light dark:bg-background-dark/90 px-4 py-3">
                     <Pressable
                         className="flex justify-start items-center size-12"
                         onPress={() => router.back()}
@@ -133,13 +133,13 @@ const PaymentScreen: React.FC = () => {
                             borderWidth: 1,
                         }}
                     >
-                        <View className="flex w-full flex-col gap-1 p-5">
+                        <View className="flex flex-col gap-1 p-5 w-full">
                             <Text style={{ color: secondaryText }} className="text-base">
                                 Total à Payer
                             </Text>
-                            <View className="flex flex-row items-end justify-between">
+                            <View className="flex flex-row justify-between items-end">
                                 <Text
-                                    className="text-3xl font-bold leading-tight tracking-tight"
+                                    className="font-bold text-3xl leading-tight tracking-tight"
                                     style={{ color: primaryText }}
                                 >
                                     {formattedTotal}
@@ -154,9 +154,9 @@ const PaymentScreen: React.FC = () => {
                     </View>
 
                     {/* Payment Methods */}
-                    <View className="mt-6 flex flex-col gap-4">
+                    <View className="flex flex-col gap-4 mt-6">
                         <Text
-                            className="text-[22px] font-bold leading-tight"
+                            className="font-bold text-[22px] leading-tight"
                             style={{ color: primaryText }}
                         >
                             Choisissez une méthode de paiement
@@ -169,7 +169,7 @@ const PaymentScreen: React.FC = () => {
                                     <Pressable
                                         key={option.id}
                                         onPress={() => setSelectedMethod(option.id)}
-                                        className="flex flex-row items-center gap-4 rounded-lg p-4"
+                                        className="flex flex-row items-center gap-4 p-4 rounded-lg"
                                         style={{
                                             backgroundColor: cardBackground,
                                             borderColor: isSelected ? '#d10505' : cardBorder,
@@ -177,7 +177,7 @@ const PaymentScreen: React.FC = () => {
                                         }}
                                     >
                                         <View
-                                            className="size-10 rounded-lg items-center justify-center overflow-hidden"
+                                            className="justify-center items-center rounded-lg size-10 overflow-hidden"
                                             style={{ backgroundColor: option.logoBackground ?? '#4a2121' }}
                                         >
                                             {option.logoUri ? (
@@ -196,7 +196,7 @@ const PaymentScreen: React.FC = () => {
                                         </View>
 
                                         <Text
-                                            className="flex-1 text-base font-medium"
+                                            className="flex-1 font-medium text-base"
                                             style={{ color: primaryText }}
                                             numberOfLines={1}
                                         >
@@ -204,14 +204,14 @@ const PaymentScreen: React.FC = () => {
                                         </Text>
 
                                         <View
-                                            className="size-6 rounded-full border-2 items-center justify-center"
+                                            className="justify-center items-center border-2 rounded-full size-6"
                                             style={{
                                                 borderColor: isSelected ? '#d10505' : cardBorder,
                                             }}
                                         >
                                             {isSelected ? (
                                                 <View
-                                                    className="size-3 rounded-full"
+                                                    className="rounded-full size-3"
                                                     style={{ backgroundColor: '#d10505' }}
                                                 />
                                             ) : null}
@@ -225,14 +225,14 @@ const PaymentScreen: React.FC = () => {
 
                 {/* Floating CTA */}
                 <View
-                    className="right-0 left-0 bottom-0 absolute px-4 pb-4 pt-3"
+                    className="right-0 bottom-0 left-0 absolute px-4 pt-3 pb-4"
                     style={{ paddingBottom: Math.max(insets.bottom + 12, 24), backgroundColor: isDark ? '#230f0f' : '#f8f5f5' }}
                 >
                     <Pressable
-                        className="w-full bg-primary py-4 px-6 rounded-lg active:scale-95"
+                        className="bg-primary px-6 py-4 rounded-lg w-full active:scale-95"
                         onPress={handleConfirm}
                     >
-                        <Text className="text-white font-bold text-lg text-center">
+                        <Text className="font-bold text-white text-lg text-center">
                             Confirmer le Paiement
                         </Text>
                     </Pressable>
