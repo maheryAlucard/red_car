@@ -23,7 +23,7 @@ export default function RootLayout() {
           <Stack>
             <Stack.Screen name="onboarding" options={{ headerShown: false }} />
             <Stack.Screen name="login" options={{ headerShown: false }} />
-            <Stack.Screen name="register" options={{ headerShown: true, title: 'Créer un compte' }} />
+            <Stack.Screen name="register" options={{ headerShown: false }} />
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
             <Stack.Screen name="recherche" options={{ headerShown: false }} />
             <Stack.Screen name="map-view" options={{ headerShown: false }} />

@@ -64,24 +64,30 @@ export default function LoginScreen() {
             flexGrow: 1,
             justifyContent: 'center',
             alignItems: 'center',
-            paddingHorizontal: 16,
+            paddingHorizontal: 20,
+            paddingTop: 48,
             paddingBottom: 40,
           }}
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
         >
           <VStack space="sm" className="w-full max-w-sm">
-            <Text className="px-4 pt-6 pb-8 font-extrabold text-[32px] text-white text-center leading-tight tracking-tight">
+            {/* Header: left-aligned */}
+            <Text className="pt-2 pb-10 pl-1 font-extrabold text-[32px] text-white text-left leading-tight tracking-tight">
               RedCar Madagascar
             </Text>
 
-            <VStack space="sm" className="px-4 w-full">
+            <VStack space="sm" className="w-full">
               {/* Email / Phone */}
               <VStack space="sm" className="w-full">
-                <Text className="opacity-90 pb-2 font-semibold text-white text-sm uppercase leading-normal tracking-wider">
+                <Text className="pb-2 font-semibold text-white text-sm uppercase leading-normal tracking-wider">
                   Adresse e-mail ou téléphone
                 </Text>
-                <Input variant="outline" size="xl">
+                <Input
+                  variant="outline"
+                  size="xl"
+                  className="bg-surface-dark border border-border-subtle rounded-xl"
+                >
                   <InputField
                     placeholder="Votre e-mail ou téléphone"
                     placeholderTextColor="rgba(192, 192, 192, 0.7)"
@@ -91,9 +97,10 @@ export default function LoginScreen() {
                     autoCorrect={false}
                     keyboardType="email-address"
                     editable={!isLoading}
+                    className="text-white"
                   />
                   <InputIcon
-                    as={() => <MaterialIcons name="mail" size={24} color="#C0C0C0" />}
+                    as={() => <MaterialIcons name="mail" size={24} color="#FFFFFF" />}
                     size="xl"
                   />
                 </Input>
@@ -101,10 +108,14 @@ export default function LoginScreen() {
 
               {/* Password */}
               <VStack space="sm" className="w-full">
-                <Text className="opacity-90 pb-2 font-semibold text-white text-sm uppercase leading-normal tracking-wider">
+                <Text className="pb-2 font-semibold text-white text-sm uppercase leading-normal tracking-wider">
                   Mot de passe
                 </Text>
-                <Input variant="outline" size="xl" >
+                <Input
+                  variant="outline"
+                  size="xl"
+                  className="bg-surface-dark border border-border-subtle rounded-xl"
+                >
                   <InputField
                     placeholder="Votre mot de passe"
                     placeholderTextColor="rgba(192, 192, 192, 0.7)"
@@ -112,58 +123,59 @@ export default function LoginScreen() {
                     onChangeText={setPassword}
                     secureTextEntry={!showPassword}
                     editable={!isLoading}
+                    className="text-white"
                   />
-                  <InputSlot onPress={() => setShowPassword((v) => !v)}>
+                  <InputSlot onPress={() => setShowPassword((v) => !v)} className="pr-3">
                     <MaterialIcons
                       name={showPassword ? 'visibility' : 'visibility-off'}
                       size={24}
-                      color="#C0C0C0"
+                      color="#FFFFFF"
                     />
                   </InputSlot>
                 </Input>
               </VStack>
 
               <Pressable onPress={handleForgotPassword} className="self-end">
-                <Text className="opacity-90 font-medium text-white text-sm underline">
+                <Text className="font-medium text-primary text-sm underline">
                   Mot de passe oublié ?
                 </Text>
               </Pressable>
             </VStack>
 
             {/* Se connecter */}
-            <VStack space="sm" className="px-4 py-3 w-full">
+            <VStack space="sm" className="py-4 w-full">
               <Button
                 variant="solid"
                 action="primary"
                 size="xl"
                 onPress={handleLogin}
                 disabled={isLoading}
-                className="w-full"
+                className="bg-primary rounded-xl w-full"
               >
                 {isLoading ? (
                   <ButtonSpinner color="#FFFFFF" />
                 ) : (
-                  <ButtonText>Se connecter</ButtonText>
+                  <ButtonText className="font-bold uppercase">Se connecter</ButtonText>
                 )}
               </Button>
             </VStack>
 
             {/* OU */}
-            <VStack space="sm" className="flex flex-row items-center gap-4 px-4 py-6">
-              <View className="flex-1 bg-metallic/30 h-px" />
+            <View className="flex flex-row items-center gap-4 py-2">
+              <View className="flex-1 bg-metallic/40 h-px" />
               <Text className="font-bold text-white text-sm uppercase tracking-wider">OU</Text>
-              <View className="flex-1 bg-metallic/30 h-px" />
-            </VStack>
+              <View className="flex-1 bg-metallic/40 h-px" />
+            </View>
 
             {/* Google */}
-            <VStack space="sm" className="px-4 py-3 w-full">
+            <VStack space="sm" className="py-3 w-full">
               <Button
                 variant="outline"
                 action="default"
                 size="xl"
                 onPress={handleGoogleLogin}
                 disabled={isLoading}
-                className="gap-3 bg-transparent border border-metallic w-full"
+                className="gap-3 bg-surface-dark border-2 border-white rounded-xl w-full"
               >
                 <ButtonIcon
                   as={() => (
@@ -179,7 +191,7 @@ export default function LoginScreen() {
             </VStack>
 
             {/* S'inscrire */}
-            <View className="flex justify-center items-center px-4 pt-8 pb-4">
+            <View className="flex justify-center items-center pt-10 pb-4">
               <Text className="font-normal text-white text-base">
                 Pas de compte ?{' '}
                 <Link href="/register" asChild>
