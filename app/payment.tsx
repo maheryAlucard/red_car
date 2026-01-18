@@ -99,7 +99,7 @@ const PaymentScreen: React.FC = () => {
         <SafeAreaView className="flex-1 bg-background-light dark:bg-background-dark">
             <VStack className="flex-1">
                 {/* Top App Bar */}
-                <View className="top-0 z-10 sticky flex flex-row items-center bg-background-light dark:bg-background-dark/90 px-4 py-3">
+                <View className="top-0 z-10 sticky flex flex-row items-center bg-background-light dark:bg-background-dark/90 px-screenX py-3">
                     <Pressable
                         className="flex justify-start items-center size-12"
                         onPress={() => router.back()}
@@ -225,7 +225,7 @@ const PaymentScreen: React.FC = () => {
 
                 {/* Floating CTA */}
                 <View
-                    className="right-0 bottom-0 left-0 absolute px-4 pt-3 pb-4"
+                    className="right-0 bottom-0 left-0 absolute px-screenX pt-3 pb-4"
                     style={{ paddingBottom: Math.max(insets.bottom + 12, 24), backgroundColor: isDark ? '#230f0f' : '#f8f5f5' }}
                 >
                     <Pressable

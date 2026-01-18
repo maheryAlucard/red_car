@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
         right: 0,
         zIndex: 10,
         paddingBottom: 20,
-        paddingHorizontal: 20,
+        paddingHorizontal: 24,
         alignItems: 'center',
         justifyContent: 'center',
     },

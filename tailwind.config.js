@@ -206,6 +206,9 @@ module.exports = {
         'soft-3': '0px 0px 30px rgba(38, 38, 38, 0.1)',
         'soft-4': '0px 0px 40px rgba(38, 38, 38, 0.1)',
       },
+      spacing: {
+        screenX: '1.5rem', // 24px, aligns with NativeWind px-6 for page horizontal padding
+      },
     },
   },
 };

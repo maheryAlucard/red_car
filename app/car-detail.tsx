@@ -147,7 +147,7 @@ const CarDetailScreen: React.FC = () => {
         <SafeAreaView className="flex-1 bg-background-light dark:bg-background-dark">
             <VStack className="flex-1">
                 {/* Top App Bar */}
-                <View className="flex flex-row justify-between items-center bg-background-light/80 dark:bg-background-dark/80 px-4 pb-2">
+                <View className="flex flex-row justify-between items-center bg-background-light/80 dark:bg-background-dark/80 px-screenX pb-2">
                     <Pressable
                         className="flex justify-center items-center w-12 h-12 shrink-0"
                         onPress={() => router.back()}
@@ -180,7 +180,7 @@ const CarDetailScreen: React.FC = () => {
                     contentContainerStyle={{ paddingBottom: 180 }}
                 >
                     {/* Header Image Carousel */}
-                    <View className="px-4 py-3">
+                    <View className="px-screenX py-3">
                         <CarImageCarousel
                             images={images}
                             height={Dimensions.get('screen').width * 0.6}
@@ -189,12 +189,12 @@ const CarDetailScreen: React.FC = () => {
                     </View>
 
                     {/* Headline Text */}
-                    <Text className="px-4 pt-3 pb-0 font-bold text-[32px] text-white leading-tight tracking-tight">
+                    <Text className="px-screenX pt-3 pb-0 font-bold text-[32px] text-white leading-tight tracking-tight">
                         {car.name}
                     </Text>
 
                     {/* Body Text */}
-                    <Text className="px-4 pt-1 pb-3 font-normal text-zinc-400 text-base leading-normal">
+                    <Text className="px-screenX pt-1 pb-3 font-normal text-zinc-400 text-base leading-normal">
                         {car.year}
                     </Text>
 
@@ -227,7 +227,7 @@ const CarDetailScreen: React.FC = () => {
                     </View>
 
                     {/* Pricing Section */}
-                    <View className="flex flex-col gap-4 mt-4 px-4">
+                    <View className="flex flex-col gap-4 mt-4 px-screenX">
                         <View className="bg-primary/20 p-4 border border-primary/30 rounded-xl">
                             <Text className="font-medium text-zinc-300 text-sm">Prix de Location</Text>
                             <Text className="font-bold text-primary text-3xl">
@@ -348,7 +348,7 @@ const CarDetailScreen: React.FC = () => {
                 </ScrollView>
 
                 {/* CTA Footer */}
-                <View className="right-0 bottom-0 left-0 z-10 absolute bg-background-dark/80 p-4 pt-3 border-zinc-800 border-t w-full" style={[styles.footer, { paddingBottom: Math.max(insets.bottom, 16) }]}>
+                <View className="right-0 bottom-0 left-0 z-10 absolute bg-background-dark/80 px-screenX pt-3 border-zinc-800 border-t w-full" style={[styles.footer, { paddingBottom: Math.max(insets.bottom, 16) }]}>
                     <View className="flex flex-col gap-3">
                         <View className="flex flex-row items-center gap-3">
                             <Pressable

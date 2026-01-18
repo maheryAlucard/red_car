@@ -101,7 +101,7 @@ export default function HomeScreen() {
     <SafeAreaView className="flex-1 bg-background-light dark:bg-background-dark">
       <VStack className="flex-1">
         {/* Top App Bar */}
-        <HStack className="justify-between items-center bg-background-light dark:bg-background-dark px-4 pb-2">
+        <HStack className="justify-between items-center bg-background-light dark:bg-background-dark px-screenX pb-2">
           <View className="flex justify-start items-center w-12 h-12 shrink-0">
             <Image
               source={require('@/assets/images/icon.png')}
@@ -129,7 +129,7 @@ export default function HomeScreen() {
           contentContainerStyle={{ paddingBottom: 100 }}
         >
           {/* Search Bar */}
-          <View className="px-4 py-3">
+          <View className="px-screenX py-3">
             <Pressable onPress={handleSearch}>
               <Input
                 variant="outline"
@@ -153,7 +153,7 @@ export default function HomeScreen() {
           </View>
 
           {/* Section Header: Voitures en Vedette */}
-          <Text className="px-4 pt-4 pb-2 font-bold text-slate-900 dark:text-white text-lg leading-tight tracking-tight">
+          <Text className="px-screenX pt-4 pb-2 font-bold text-slate-900 dark:text-white text-lg leading-tight tracking-tight">
             Voitures en Vedette
           </Text>
 
@@ -161,7 +161,7 @@ export default function HomeScreen() {
           <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{ paddingLeft: 16, paddingRight: 16, gap: 16 }}
+            contentContainerStyle={{ paddingLeft: 24, paddingRight: 24, gap: 16 }}
           >
             {featuredCars.map((car, index) => (
               <Pressable
@@ -201,7 +201,7 @@ export default function HomeScreen() {
           </Text>
 
           {/* Vertical List: Récemment Ajoutées */}
-          <VStack className="px-4 pb-6" space="md">
+          <VStack className="px-screenX pb-6" space="md">
             {recentCars.map((car) => (
               <Pressable
                 key={car.id}

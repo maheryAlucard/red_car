@@ -40,7 +40,7 @@ const MapViewNative: React.FC<MapViewNativeProps> = ({ selectedCar }) => {
         <View className="relative flex-1">
             <MapComponent style={StyleSheet.absoluteFillObject} />
             {selectedCar && (
-                <View className="right-0 bottom-0 left-0 z-10 absolute flex flex-col items-center gap-4 p-4">
+                <View className="right-0 bottom-0 left-0 z-10 absolute flex flex-col items-center gap-4 px-screenX py-4">
                     <View className="bg-[#222222]/90 shadow-2xl p-4 rounded-xl w-full max-w-md">
                         <View className="flex justify-between items-stretch gap-4">
                             <View className="flex flex-col flex-[2_2_0px] justify-between gap-3">

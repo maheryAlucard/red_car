@@ -91,7 +91,7 @@ const RentScreen: React.FC = () => {
                 </View>
 
                 {/* Main Content */}
-                <View className="flex-1 px-4 pt-4">
+                <View className="flex-1 px-screenX pt-4">
                     {/* Body Text */}
                     <Text
                         className="mb-4 text-text-secondary-light dark:text-text-secondary-dark text-base"
@@ -114,7 +114,7 @@ const RentScreen: React.FC = () => {
 
                 {/* Summary Footer */}
                 <View
-                    className="right-0 bottom-0 left-0 z-10 absolute bg-slate-900 dark:bg-slate-900 shadow-2xl p-4 border-white/10 border-t"
+                    className="right-0 bottom-0 left-0 z-10 absolute bg-slate-900 dark:bg-slate-900 shadow-2xl px-screenX pt-4 border-white/10 border-t"
                     style={[
                         styles.footer,
                         {

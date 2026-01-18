@@ -104,17 +104,17 @@ const MapViewScreen: React.FC = () => {
                     {/* Map Placeholder for Expo Go */}
                     <View className="flex-1 justify-center items-center bg-gray-900">
                         <MaterialIcons name="map" size={64} color="#666" />
-                        <Text className="mt-4 px-4 text-gray-400 text-base text-center">
+                        <Text className="mt-4 px-screenX text-gray-400 text-base text-center">
                             Les cartes ne sont pas disponibles dans Expo Go
                         </Text>
-                        <Text className="mt-2 px-4 text-gray-500 text-sm text-center">
+                        <Text className="mt-2 px-screenX text-gray-500 text-sm text-center">
                             Utilisez un build de développement pour voir la carte
                         </Text>
                     </View>
 
                     {/* Selected Car Card */}
                     {selectedCar && (
-                        <View className="right-0 bottom-0 left-0 z-10 absolute flex flex-col items-center gap-4 p-4">
+                        <View className="right-0 bottom-0 left-0 z-10 absolute flex flex-col items-center gap-4 px-screenX py-4">
                             <View className="bg-[#222222]/90 shadow-2xl p-4 rounded-xl w-full max-w-md">
                                 <View className="flex justify-between items-stretch gap-4">
                                     <View className="flex flex-col flex-[2_2_0px] justify-between gap-3">
@@ -186,7 +186,7 @@ const MapViewScreen: React.FC = () => {
             <VStack className="flex-1">
                 {/* Top App Bar */}
                 <View
-                    className="top-0 z-20 absolute flex flex-row justify-between items-center px-4 pt-4 pb-12 w-full"
+                    className="top-0 z-20 absolute flex flex-row justify-between items-center px-screenX pt-4 pb-12 w-full"
                     style={{
                         backgroundColor: 'rgba(18, 18, 18, 0.8)',
                     }}

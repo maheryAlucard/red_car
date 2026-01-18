@@ -57,7 +57,7 @@ const OnboardingImage: React.FC<OnboardingImageProps> = ({
   imageSource,
   currentPage,
   delay = 300,
-  containerClassName = 'px-4 py-3',
+  containerClassName = 'px-screenX py-3',
 }) => {
   return (
     <View className={containerClassName}>
@@ -191,7 +191,7 @@ const OnboardingScreen: React.FC = () => {
                     </AnimatedText>
                     <AnimatedText
                       entering={FadeIn.delay(600).duration(400)}
-                      className="px-4 pt-1 pb-3 font-display font-normal text-zinc-600 dark:text-zinc-400 text-base text-center leading-normal"
+                      className="px-screenX pt-1 pb-3 font-display font-normal text-zinc-600 dark:text-zinc-400 text-base text-center leading-normal"
                     >
                       {currentPageData.bodyText}
                     </AnimatedText>
@@ -201,7 +201,7 @@ const OnboardingScreen: React.FC = () => {
                 {/* Bottom Button */}
                 <AnimatedView
                   entering={FadeIn.delay(700).duration(400)}
-                  className="px-4 py-8 w-full"
+                  className="px-screenX py-8 w-full"
                 >
                   <Pressable
                     onPress={handleNext}
@@ -225,7 +225,7 @@ const OnboardingScreen: React.FC = () => {
                     imageSource={currentPageData.imageSource}
                     currentPage={currentPage}
                     delay={200}
-                    containerClassName="px-4 pt-8"
+                    containerClassName="px-screenX pt-8"
                   />
                 </AnimatedView>
 
@@ -242,7 +242,7 @@ const OnboardingScreen: React.FC = () => {
                   </AnimatedText>
                   <AnimatedText
                     entering={FadeIn.delay(500).duration(400)}
-                    className="px-6 pt-1 pb-3 max-w-md font-display font-normal text-white/80 text-base text-center leading-normal"
+                    className="px-screenX pt-1 pb-3 max-w-md font-display font-normal text-white/80 text-base text-center leading-normal"
                   >
                     {currentPageData.bodyText}
                   </AnimatedText>
@@ -251,7 +251,7 @@ const OnboardingScreen: React.FC = () => {
                 {/* Bottom Section: Navigation */}
                 <AnimatedView
                   entering={FadeIn.delay(600).duration(400)}
-                  className="flex-col justify-end items-center px-4 pt-4 pb-8"
+                  className="flex-col justify-end items-center px-screenX pt-4 pb-8"
                 >
                   {/* Page Indicators */}
                   <View className="flex-row justify-center items-center gap-3 py-5">
@@ -287,7 +287,7 @@ const OnboardingScreen: React.FC = () => {
                 {/* Main Content */}
                 <AnimatedView
                   entering={FadeIn.delay(100).duration(400)}
-                  className="flex-col flex-grow justify-center items-center px-4"
+                  className="flex-col flex-grow justify-center items-center px-screenX"
                 >
                   {/* Image */}
                   <OnboardingImage

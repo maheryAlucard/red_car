@@ -158,7 +158,7 @@ const RechercheScreen: React.FC = () => {
                 <ScrollView
                     horizontal
                     showsHorizontalScrollIndicator={false}
-                    contentContainerStyle={{ paddingRight: 16 }}
+                    contentContainerStyle={{ paddingRight: 24 }}
                 >
                     <HStack className="gap-2">
                         {filterButtons.map((filter) => (
@@ -202,7 +202,7 @@ const RechercheScreen: React.FC = () => {
                 data={results}
                 renderItem={renderCarCard}
                 keyExtractor={(item) => item.id}
-                contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 32 }}
+                contentContainerStyle={{ paddingHorizontal: 24, paddingBottom: 32 }}
                 showsVerticalScrollIndicator={false}
                 ListEmptyComponent={
                     <View className="flex flex-col justify-center items-center py-20">
@@ -221,7 +221,7 @@ const RechercheScreen: React.FC = () => {
         <SafeAreaView className="flex-1 bg-background-light dark:bg-background-dark">
             <VStack className="flex-1">
                 {/* Top App Bar */}
-                <View className="flex flex-row justify-between items-center bg-background-light dark:bg-background-dark/80 px-4 w-full">
+                <View className="flex flex-row justify-between items-center bg-background-light dark:bg-background-dark/80 px-screenX w-full">
                     <Pressable
                         className="flex justify-center items-center w-12 h-12 shrink-0"
                         onPress={() => router.back()}
