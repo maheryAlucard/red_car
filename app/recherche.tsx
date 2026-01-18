@@ -5,7 +5,7 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { Image } from 'expo-image';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
-import { FlatList, Pressable, ScrollView, Text, View } from 'react-native';
+import { FlatList, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 interface SearchCar {
@@ -97,7 +97,7 @@ const RechercheScreen: React.FC = () => {
     const [results] = useState(mockSearchResults);
 
     const renderCarCard = ({ item }: { item: SearchCar }) => (
-        <Pressable
+        <TouchableOpacity
             onPress={() => router.push({ pathname: '/car-detail', params: { carId: item.id } })}
         >
             <View className="bg-gray-800 mb-4 rounded-xl w-full overflow-hidden">
@@ -148,7 +148,7 @@ const RechercheScreen: React.FC = () => {
                     </View>
                 </View>
             </View>
-        </Pressable>
+        </TouchableOpacity>
     );
 
     const renderListView = () => (
@@ -162,7 +162,7 @@ const RechercheScreen: React.FC = () => {
                 >
                     <HStack className="gap-2">
                         {filterButtons.map((filter) => (
-                            <Pressable
+                            <TouchableOpacity
                                 key={filter.id}
                                 className={`flex h-9 shrink-0 items-center justify-center gap-x-2 rounded-lg px-4 ${filter.active ? 'bg-primary' : 'bg-gray-800'
                                     }`}
@@ -180,7 +180,7 @@ const RechercheScreen: React.FC = () => {
                                         color={filter.active ? '#FFFFFF' : '#F5F5F5'}
                                     />
                                 </HStack>
-                            </Pressable>
+                            </TouchableOpacity>
                         ))}
                     </HStack>
                 </ScrollView>

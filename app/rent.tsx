@@ -4,7 +4,7 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { Calendar, toDateId, useDateRange } from '@marceloterreiro/flash-calendar';
 import { router, useLocalSearchParams } from 'expo-router';
 import React, { useMemo } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 
 interface RentParams {
@@ -74,7 +74,7 @@ const RentScreen: React.FC = () => {
             <VStack className="flex-1">
                 {/* Top App Bar */}
                 <View className="top-0 z-10 sticky flex flex-row justify-between items-center bg-background-light dark:bg-background-dark px-4 border-white/10 border-b h-16 shrink-0">
-                    <Pressable
+                    <TouchableOpacity
                         className="flex justify-start items-center size-12"
                         onPress={() => router.back()}
                     >
@@ -83,7 +83,7 @@ const RentScreen: React.FC = () => {
                             size={24}
                             color={isDark ? '#F5F5F5' : '#1f2937'}
                         />
-                    </Pressable>
+                    </TouchableOpacity>
                     <Text className="flex-1 font-bold text-typography-500 dark:text-typography-50 text-lg text-center">
                         Sélection des Dates
                     </Text>
@@ -166,8 +166,8 @@ const RentScreen: React.FC = () => {
                         </Text>
 
                         {/* CTA Button */}
-                        <Pressable
-                            className="bg-primary shadow-lg shadow-primary/30 mt-4 py-3 rounded-lg w-full font-bold text-white text-base active:scale-95 transition-transform"
+                        <TouchableOpacity
+                            className="bg-primary shadow-lg shadow-primary/30 mt-4 py-3 rounded-lg w-full font-bold text-white text-base"
                             onPress={() => {
                                 if (selectedStartDate && selectedEndDate && dateRange?.startId && dateRange?.endId) {
                                     router.push({
@@ -191,7 +191,7 @@ const RentScreen: React.FC = () => {
                             <Text className="font-bold text-white text-base text-center">
                                 Confirmer les dates
                             </Text>
-                        </Pressable>
+                        </TouchableOpacity>
                     </View>
                 </View>
             </VStack>

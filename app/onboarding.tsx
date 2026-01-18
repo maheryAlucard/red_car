@@ -2,7 +2,7 @@ import { VStack } from '@/components/ui/vstack';
 import { Image, ImageSource } from 'expo-image';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
-import { Pressable, ScrollView, Text, View } from 'react-native';
+import { Text, TouchableOpacity, useWindowDimensions, View } from 'react-native';
 import Animated, {
   FadeIn,
   SlideInRight,
@@ -51,6 +51,7 @@ interface OnboardingImageProps {
   currentPage: number;
   delay?: number;
   containerClassName?: string;
+  maxHeight: number;
 }
 
 const OnboardingImage: React.FC<OnboardingImageProps> = ({
@@ -58,17 +59,18 @@ const OnboardingImage: React.FC<OnboardingImageProps> = ({
   currentPage,
   delay = 300,
   containerClassName = 'px-screenX py-3',
+  maxHeight,
 }) => {
   return (
     <View className={containerClassName}>
       <AnimatedView
         entering={FadeIn.delay(delay).duration(500)}
-        className="flex-col justify-end bg-transparent rounded-lg w-full min-h-80 overflow-hidden"
+        className="flex-col justify-end bg-transparent rounded-lg w-full overflow-hidden"
+        style={{ height: maxHeight }}
       >
         <Image
           source={imageSource}
-          className="flex-1 rounded-lg w-full"
-          style={{ minHeight: 320 }}
+          className="flex-1 rounded-lg w-full min-h-0"
           contentFit="cover"
           transition={200}
           cachePolicy="memory-disk"
@@ -114,6 +116,9 @@ const PageIndicator: React.FC<PageIndicatorProps> = ({ index, isActive, isSecond
 const OnboardingScreen: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const totalPages = onboardingPages.length;
+  const { height: windowHeight } = useWindowDimensions();
+  // Image height scales with viewport; reserve space for text, indicators, button. Kept in 120–260px.
+  const maxImageHeight = Math.min(260, Math.max(120, (windowHeight - 120) * 0.34));
 
   const handleNext = () => {
     if (currentPage < totalPages - 1) {
@@ -134,12 +139,8 @@ const OnboardingScreen: React.FC = () => {
 
   return (
     <SafeAreaView className={`flex-1 ${backgroundClass}`}>
-      <ScrollView
-        className="flex-1"
-        contentContainerStyle={{ flexGrow: 1 }}
-        showsVerticalScrollIndicator={false}
-      >
-        <VStack className="flex-1 min-h-screen">
+      <View className="flex-1 h-screen-safe">
+        <VStack className="flex-1 min-h-0">
           {/* Main Content */}
           <AnimatedView
             key={currentPage}
@@ -153,7 +154,7 @@ const OnboardingScreen: React.FC = () => {
                 {/* Page Indicators at Top */}
                 <AnimatedView
                   entering={FadeIn.delay(100).duration(400)}
-                  className="flex-row justify-center items-center gap-3 pt-10 pb-5"
+                  className="flex-row justify-center items-center gap-3 pt-4 pb-3"
                 >
                   {Array.from({ length: totalPages }).map((_, index) => (
                     <PageIndicator
@@ -169,49 +170,36 @@ const OnboardingScreen: React.FC = () => {
                 {/* Main Content */}
                 <AnimatedView
                   entering={FadeIn.delay(200).duration(400)}
-                  className="flex-col flex-grow justify-center"
+                  className="flex-col flex-1 justify-center min-h-0"
                 >
                   {/* Image */}
                   <OnboardingImage
                     imageSource={currentPageData.imageSource}
                     currentPage={currentPage}
                     delay={300}
+                    maxHeight={maxImageHeight}
                   />
 
                   {/* Text Content */}
                   <AnimatedView
                     entering={FadeIn.delay(400).duration(400)}
-                    className="text-center"
+                    className="text-center shrink-0"
                   >
                     <AnimatedText
                       entering={FadeIn.delay(500).duration(400)}
-                      className="px-4 pt-6 pb-3 font-display font-bold text-[32px] text-black dark:text-white text-center leading-tight tracking-tight"
+                      className="px-4 pt-4 pb-2 font-display font-bold text-[32px] text-black dark:text-white text-center leading-tight tracking-tight"
                     >
                       {currentPageData.headline}
                     </AnimatedText>
                     <AnimatedText
                       entering={FadeIn.delay(600).duration(400)}
-                      className="px-screenX pt-1 pb-3 font-display font-normal text-zinc-600 dark:text-zinc-400 text-base text-center leading-normal"
+                      className="px-screenX pt-1 pb-2 font-display font-normal text-zinc-600 dark:text-zinc-400 text-base text-center leading-normal"
                     >
                       {currentPageData.bodyText}
                     </AnimatedText>
                   </AnimatedView>
                 </AnimatedView>
 
-                {/* Bottom Button */}
-                <AnimatedView
-                  entering={FadeIn.delay(700).duration(400)}
-                  className="px-screenX py-8 w-full"
-                >
-                  <Pressable
-                    onPress={handleNext}
-                    className="flex justify-center items-center bg-primary active:opacity-90 px-5 rounded-lg w-full min-w-[84px] max-w-[480px] h-12 overflow-hidden"
-                  >
-                    <Text className="font-display font-bold text-white text-base truncate leading-normal tracking-[0.015em]">
-                      Commencer
-                    </Text>
-                  </Pressable>
-                </AnimatedView>
               </>
             ) : isSecondPage ? (
               // Second page layout: Image at top, text in middle, navigation at bottom
@@ -219,30 +207,31 @@ const OnboardingScreen: React.FC = () => {
                 {/* Top Section: Image */}
                 <AnimatedView
                   entering={FadeIn.delay(100).duration(400)}
-                  className="flex-col flex-grow justify-end"
+                  className="flex-col flex-1 justify-end min-h-0"
                 >
                   <OnboardingImage
                     imageSource={currentPageData.imageSource}
                     currentPage={currentPage}
                     delay={200}
-                    containerClassName="px-screenX pt-8"
+                    containerClassName="px-screenX pt-4"
+                    maxHeight={maxImageHeight}
                   />
                 </AnimatedView>
 
                 {/* Middle Section: Text Content */}
                 <AnimatedView
                   entering={FadeIn.delay(300).duration(400)}
-                  className="flex-col items-center pt-8"
+                  className="flex-col items-center pt-4 shrink-0"
                 >
                   <AnimatedText
                     entering={FadeIn.delay(400).duration(400)}
-                    className="px-4 pt-6 pb-3 font-display font-bold text-[32px] text-white text-center leading-tight tracking-tight"
+                    className="px-4 pt-4 pb-2 font-display font-bold text-[32px] text-white text-center leading-tight tracking-tight"
                   >
                     {currentPageData.headline}
                   </AnimatedText>
                   <AnimatedText
                     entering={FadeIn.delay(500).duration(400)}
-                    className="px-screenX pt-1 pb-3 max-w-md font-display font-normal text-white/80 text-base text-center leading-normal"
+                    className="px-screenX pt-1 pb-2 max-w-md font-display font-normal text-white/80 text-base text-center leading-normal"
                   >
                     {currentPageData.bodyText}
                   </AnimatedText>
@@ -251,10 +240,10 @@ const OnboardingScreen: React.FC = () => {
                 {/* Bottom Section: Navigation */}
                 <AnimatedView
                   entering={FadeIn.delay(600).duration(400)}
-                  className="flex-col justify-end items-center px-screenX pt-4 pb-8"
+                  className="flex-col justify-end items-center px-screenX pt-2 pb-5 shrink-0"
                 >
                   {/* Page Indicators */}
-                  <View className="flex-row justify-center items-center gap-3 py-5">
+                  <View className="flex-row justify-center items-center gap-3 py-3">
                     {Array.from({ length: totalPages }).map((_, index) => (
                       <PageIndicator
                         key={index}
@@ -266,19 +255,6 @@ const OnboardingScreen: React.FC = () => {
                     ))}
                   </View>
 
-                  {/* Primary Action Button */}
-                  <View className="w-full max-w-md">
-                    <View className="flex py-3 w-full">
-                      <Pressable
-                        onPress={handleNext}
-                        className="flex flex-1 justify-center items-center bg-primary active:opacity-90 px-5 rounded-lg min-w-[84px] max-w-[480px] h-12 overflow-hidden"
-                      >
-                        <Text className="font-display font-bold text-white text-base truncate leading-normal tracking-[0.015em]">
-                          Suivant
-                        </Text>
-                      </Pressable>
-                    </View>
-                  </View>
                 </AnimatedView>
               </>
             ) : (
@@ -287,20 +263,21 @@ const OnboardingScreen: React.FC = () => {
                 {/* Main Content */}
                 <AnimatedView
                   entering={FadeIn.delay(100).duration(400)}
-                  className="flex-col flex-grow justify-center items-center px-screenX"
+                  className="flex-col flex-1 justify-center items-center px-screenX min-h-0"
                 >
                   {/* Image */}
                   <OnboardingImage
                     imageSource={currentPageData.imageSource}
                     currentPage={currentPage}
                     delay={200}
-                    containerClassName="py-3"
+                    containerClassName="py-2"
+                    maxHeight={maxImageHeight}
                   />
 
                   {/* Headline Text */}
                   <AnimatedText
                     entering={FadeIn.delay(400).duration(400)}
-                    className="pt-6 pb-3 font-display font-bold text-[32px] text-white text-center leading-tight tracking-tight"
+                    className="pt-4 pb-2 font-display font-bold text-[32px] text-white text-center leading-tight tracking-tight"
                   >
                     {currentPageData.headline}
                   </AnimatedText>
@@ -308,7 +285,7 @@ const OnboardingScreen: React.FC = () => {
                   {/* Body Text */}
                   <AnimatedText
                     entering={FadeIn.delay(500).duration(400)}
-                    className="pt-1 pb-3 max-w-sm font-display font-normal text-[#A9A9A9] text-base text-center leading-normal"
+                    className="pt-1 pb-2 max-w-sm font-display font-normal text-[#A9A9A9] text-base text-center leading-normal"
                   >
                     {currentPageData.bodyText}
                   </AnimatedText>
@@ -317,10 +294,10 @@ const OnboardingScreen: React.FC = () => {
                 {/* Bottom Section */}
                 <AnimatedView
                   entering={FadeIn.delay(600).duration(400)}
-                  className="p-6"
+                  className="p-4 pb-5 shrink-0"
                 >
                   {/* Page Indicators */}
-                  <View className="flex-row justify-center items-center gap-3 py-5">
+                  <View className="flex-row justify-center items-center gap-3 py-3">
                     {Array.from({ length: totalPages }).map((_, index) => (
                       <PageIndicator
                         key={index}
@@ -332,23 +309,25 @@ const OnboardingScreen: React.FC = () => {
                     ))}
                   </View>
 
-                  {/* Primary Action Button */}
-                  <View className="flex-col items-center">
-                    <Pressable
-                      onPress={handleNext}
-                      className="justify-center items-center bg-primary active:opacity-90 shadow-lg px-6 rounded-xl w-full max-w-sm h-12"
-                    >
-                      <Text className="font-display font-bold text-white text-base">
-                        Suivant
-                      </Text>
-                    </Pressable>
-                  </View>
                 </AnimatedView>
               </>
             )}
           </AnimatedView>
+
+          {/* Action button: no animation, text depends on current page */}
+          <View className="items-center px-screenX py-5 w-full shrink-0">
+            <TouchableOpacity
+              onPress={handleNext}
+              activeOpacity={0.9}
+              className="flex justify-center items-center bg-primary px-5 rounded-lg w-full min-w-[84px] max-w-[480px] h-12 overflow-hidden"
+            >
+              <Text className="font-display font-bold text-white text-base truncate leading-normal tracking-[0.015em]">
+                {currentPage === totalPages - 1 ? 'Commencer' : 'Suivant'}
+              </Text>
+            </TouchableOpacity>
+          </View>
         </VStack>
-      </ScrollView>
+      </View>
     </SafeAreaView>
   );
 };

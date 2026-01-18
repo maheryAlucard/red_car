@@ -5,10 +5,10 @@ import { router, useLocalSearchParams } from 'expo-router';
 import React, { useMemo, useState } from 'react';
 import {
     Image,
-    Pressable,
     ScrollView,
     StyleSheet,
     Text,
+    TouchableOpacity,
     View,
 } from 'react-native';
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -100,7 +100,7 @@ const PaymentScreen: React.FC = () => {
             <VStack className="flex-1">
                 {/* Top App Bar */}
                 <View className="top-0 z-10 sticky flex flex-row items-center bg-background-light dark:bg-background-dark/90 px-screenX py-3">
-                    <Pressable
+                    <TouchableOpacity
                         className="flex justify-start items-center size-12"
                         onPress={() => router.back()}
                     >
@@ -109,7 +109,7 @@ const PaymentScreen: React.FC = () => {
                             size={24}
                             color={isDark ? '#F5F5F5' : '#111827'}
                         />
-                    </Pressable>
+                    </TouchableOpacity>
                     <Text
                         className="flex-1 font-bold text-lg text-center"
                         style={{ color: isDark ? '#F5F5F5' : '#111827' }}
@@ -166,7 +166,7 @@ const PaymentScreen: React.FC = () => {
                             {PAYMENT_OPTIONS.map((option) => {
                                 const isSelected = selectedMethod === option.id;
                                 return (
-                                    <Pressable
+                                    <TouchableOpacity
                                         key={option.id}
                                         onPress={() => setSelectedMethod(option.id)}
                                         className="flex flex-row items-center gap-4 p-4 rounded-lg"
@@ -216,7 +216,7 @@ const PaymentScreen: React.FC = () => {
                                                 />
                                             ) : null}
                                         </View>
-                                    </Pressable>
+                                    </TouchableOpacity>
                                 );
                             })}
                         </View>
@@ -228,14 +228,14 @@ const PaymentScreen: React.FC = () => {
                     className="right-0 bottom-0 left-0 absolute px-screenX pt-3 pb-4"
                     style={{ paddingBottom: Math.max(insets.bottom + 12, 24), backgroundColor: isDark ? '#230f0f' : '#f8f5f5' }}
                 >
-                    <Pressable
-                        className="bg-primary px-6 py-4 rounded-lg w-full active:scale-95"
+                    <TouchableOpacity
+                        className="bg-primary px-6 py-4 rounded-lg w-full"
                         onPress={handleConfirm}
                     >
                         <Text className="font-bold text-white text-lg text-center">
                             Confirmer le Paiement
                         </Text>
-                    </Pressable>
+                    </TouchableOpacity>
                 </View>
             </VStack>
         </SafeAreaView>
