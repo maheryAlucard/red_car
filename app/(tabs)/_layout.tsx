@@ -1,56 +1,50 @@
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { Tabs } from 'expo-router';
 import React from 'react';
-import { Platform } from 'react-native';
 
 import { HapticTab } from '@/components/haptic-tab';
+import { VendreTabButton } from '@/components/vendre-tab-button';
+import { useColorScheme } from '@/hooks/use-color-scheme';
 
 export default function TabLayout() {
+  const colorScheme = useColorScheme();
+  const isDark = colorScheme === 'dark';
+
+  const tabBarBg = isDark ? '#230f0f' : '#f1f5f9';
+  const tabBarBorder = isDark ? '#1e293b' : '#e2e8f0';
+  const tabBarInactive = isDark ? '#94a3b8' : '#64748b';
+
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: '#D40000', // Primary Red
-        tabBarInactiveTintColor: '#C0C0C0', // Metallic Grey
+        tabBarActiveTintColor: '#D40000',
+        tabBarInactiveTintColor: tabBarInactive,
         headerShown: false,
         tabBarButton: HapticTab,
         tabBarStyle: {
-          height: 70,
-          backgroundColor: 'rgba(10, 10, 10, 0.95)', // Black background with transparency
+          height: 80,
+          backgroundColor: tabBarBg,
           borderTopWidth: 1,
-          borderTopColor: 'rgba(192, 192, 192, 0.2)', // Metallic Grey border
+          borderTopColor: tabBarBorder,
           position: 'absolute',
-          ...Platform.select({
-            ios: {
-              shadowColor: '#D40000',
-              shadowOffset: { width: 0, height: -2 },
-              shadowOpacity: 0.3,
-              shadowRadius: 8,
-            },
-            android: {
-              elevation: 8,
-            },
-          }),
+          overflow: 'visible',
         },
         tabBarLabelStyle: {
-          fontSize: 12,
+          fontSize: 10,
           fontWeight: '500',
           marginTop: 4,
         },
         tabBarIconStyle: {
           marginTop: 4,
         },
-      }}>
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{
           title: 'Accueil',
-          tabBarIcon: ({ color, focused }) => (
-            <MaterialIcons
-              name={focused ? 'home' : 'home'}
-              size={24}
-              color={color}
-              style={{ fontVariationSettings: focused ? "'FILL' 1" : undefined } as any}
-            />
+          tabBarIcon: ({ color }) => (
+            <MaterialIcons name="home" size={24} color={color} />
           ),
         }}
       />
@@ -67,8 +61,16 @@ export default function TabLayout() {
         name="vendre"
         options={{
           title: 'Vendre',
+          tabBarIcon: () => null,
+          tabBarButton: (props) => <VendreTabButton {...props} />,
+        }}
+      />
+      <Tabs.Screen
+        name="chat"
+        options={{
+          title: 'Chat',
           tabBarIcon: ({ color }) => (
-            <MaterialIcons name="add-circle" size={24} color={color} />
+            <MaterialIcons name="chat" size={24} color={color} />
           ),
         }}
       />
