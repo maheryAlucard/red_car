@@ -6,7 +6,7 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { Image } from 'expo-image';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
-import { Pressable, ScrollView, Text, View } from 'react-native';
+import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 interface FeaturedCar {
@@ -113,13 +113,13 @@ export default function HomeScreen() {
             Accueil
           </Text>
           <View className="flex justify-end items-center w-12">
-            <Pressable className="flex justify-center items-center bg-transparent rounded-full w-10 h-10 overflow-hidden">
+            <TouchableOpacity className="flex justify-center items-center bg-transparent rounded-full w-10 h-10 overflow-hidden">
               <MaterialIcons
                 name="notifications"
                 size={24}
                 color={isDark ? '#C0C0C0' : '#475569'}
               />
-            </Pressable>
+            </TouchableOpacity>
           </View>
         </HStack>
 
@@ -130,7 +130,7 @@ export default function HomeScreen() {
         >
           {/* Search Bar */}
           <View className="px-screenX py-3">
-            <Pressable onPress={handleSearch}>
+            <TouchableOpacity onPress={handleSearch} activeOpacity={1}>
               <Input
                 variant="outline"
                 size="xl"
@@ -149,7 +149,7 @@ export default function HomeScreen() {
                   returnKeyType="search"
                 />
               </Input>
-            </Pressable>
+            </TouchableOpacity>
           </View>
 
           {/* Section Header: Voitures en Vedette */}
@@ -164,7 +164,7 @@ export default function HomeScreen() {
             contentContainerStyle={{ paddingLeft: 24, paddingRight: 24, gap: 16 }}
           >
             {featuredCars.map((car, index) => (
-              <Pressable
+              <TouchableOpacity
                 key={car.id}
                 onPress={() => router.push({ pathname: '/car-detail', params: { carId: car.id } })}
                 style={{ width: 256, marginRight: index < featuredCars.length - 1 ? 16 : 0 }}
@@ -191,7 +191,7 @@ export default function HomeScreen() {
                     </Text>
                   </View>
                 </View>
-              </Pressable>
+              </TouchableOpacity>
             ))}
           </ScrollView>
 
@@ -203,7 +203,7 @@ export default function HomeScreen() {
           {/* Vertical List: Récemment Ajoutées */}
           <VStack className="px-screenX pb-6" space="md">
             {recentCars.map((car) => (
-              <Pressable
+              <TouchableOpacity
                 key={car.id}
                 onPress={() => router.push({ pathname: '/car-detail', params: { carId: car.id } })}
               >
@@ -230,7 +230,7 @@ export default function HomeScreen() {
                     </Text>
                   </VStack>
                 </HStack>
-              </Pressable>
+              </TouchableOpacity>
             ))}
           </VStack>
         </ScrollView>

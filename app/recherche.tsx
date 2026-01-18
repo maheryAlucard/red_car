@@ -191,10 +191,10 @@ const RechercheScreen: React.FC = () => {
                 <Text className="font-normal text-gray-400 text-base leading-normal">
                     {results.length} véhicules trouvés
                 </Text>
-                <Pressable className="flex flex-row items-center gap-1.5">
+                <TouchableOpacity className="flex flex-row items-center gap-1.5">
                     <MaterialIcons name="swap-vert" size={20} color={isDark ? '#F5F5F5' : '#0A0A0A'} />
                     <Text className="font-medium text-white text-sm">Trier par</Text>
-                </Pressable>
+                </TouchableOpacity>
             </View>
 
             {/* Car List */}
@@ -222,7 +222,7 @@ const RechercheScreen: React.FC = () => {
             <VStack className="flex-1">
                 {/* Top App Bar */}
                 <View className="flex flex-row justify-between items-center bg-background-light dark:bg-background-dark/80 px-screenX w-full">
-                    <Pressable
+                    <TouchableOpacity
                         className="flex justify-center items-center w-12 h-12 shrink-0"
                         onPress={() => router.back()}
                     >
@@ -231,12 +231,12 @@ const RechercheScreen: React.FC = () => {
                             size={24}
                             color={isDark ? '#F5F5F5' : '#0A0A0A'}
                         />
-                    </Pressable>
+                    </TouchableOpacity>
                     <Text className="flex-1 font-bold text-white text-lg text-center leading-tight tracking-tight">
                         Rechercher
                     </Text>
                     <View className="flex flex-row items-center gap-2">
-                        <Pressable
+                        <TouchableOpacity
                             className="flex justify-center items-center w-12 h-12"
                             onPress={() => router.push('/map-view')}
                         >
@@ -245,14 +245,14 @@ const RechercheScreen: React.FC = () => {
                                 size={24}
                                 color={isDark ? '#F5F5F5' : '#0A0A0A'}
                             />
-                        </Pressable>
-                        <Pressable className="flex justify-center items-center w-12 h-12">
+                        </TouchableOpacity>
+                        <TouchableOpacity className="flex justify-center items-center w-12 h-12">
                             <MaterialIcons
                                 name="tune"
                                 size={24}
                                 color={isDark ? '#F5F5F5' : '#0A0A0A'}
                             />
-                        </Pressable>
+                        </TouchableOpacity>
                     </View>
                 </View>
 

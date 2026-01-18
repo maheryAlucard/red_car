@@ -2,7 +2,7 @@ import { Image } from 'expo-image';
 import { AppleMaps, GoogleMaps } from 'expo-maps';
 import { router } from 'expo-router';
 import React from 'react';
-import { Platform, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export interface SearchCar {
     id: string;
@@ -55,7 +55,7 @@ const MapViewNative: React.FC<MapViewNativeProps> = ({ selectedCar }) => {
                                         À partir de {selectedCar.price} Ar {selectedCar.priceUnit}
                                     </Text>
                                 </View>
-                                <Pressable
+                                <TouchableOpacity
                                     className="flex justify-center items-center bg-primary px-4 rounded-lg w-full h-10 overflow-hidden cursor-pointer"
                                     onPress={() =>
                                         router.push({ pathname: '/car-detail', params: { carId: selectedCar.id } })
@@ -64,7 +64,7 @@ const MapViewNative: React.FC<MapViewNativeProps> = ({ selectedCar }) => {
                                     <Text className="font-bold text-white text-sm truncate leading-normal">
                                         Voir les détails
                                     </Text>
-                                </Pressable>
+                                </TouchableOpacity>
                             </View>
                             <View
                                 className="flex-1 bg-cover bg-no-repeat bg-center rounded-lg w-full"

@@ -5,7 +5,7 @@ import Constants, { ExecutionEnvironment } from 'expo-constants';
 import { Image } from 'expo-image';
 import { router, useLocalSearchParams } from 'expo-router';
 import React, { Suspense, lazy, useState } from 'react';
-import { Platform, Pressable, Text, View } from 'react-native';
+import { Platform, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 // Set to false when ready to show the real map (requires dev build, not Expo Go)
@@ -129,14 +129,14 @@ const MapViewScreen: React.FC = () => {
                                                 À partir de {selectedCar.price} Ar {selectedCar.priceUnit}
                                             </Text>
                                         </View>
-                                        <Pressable
+                                        <TouchableOpacity
                                             className="flex justify-center items-center bg-primary px-4 rounded-lg w-full h-10 overflow-hidden cursor-pointer"
                                             onPress={() => router.push({ pathname: '/car-detail', params: { carId: selectedCar.id } })}
                                         >
                                             <Text className="font-bold text-white text-sm truncate leading-normal">
                                                 Voir les détails
                                             </Text>
-                                        </Pressable>
+                                        </TouchableOpacity>
                                     </View>
                                     <View
                                         className="flex-1 bg-cover bg-no-repeat bg-center rounded-lg w-full"
@@ -191,18 +191,18 @@ const MapViewScreen: React.FC = () => {
                         backgroundColor: 'rgba(18, 18, 18, 0.8)',
                     }}
                 >
-                    <Pressable
+                    <TouchableOpacity
                         className="flex justify-center items-center w-12 h-12 shrink-0"
                         onPress={() => router.back()}
                     >
                         <MaterialIcons name="arrow-back" size={24} color="#FFFFFF" />
-                    </Pressable>
+                    </TouchableOpacity>
                     <Text className="flex-1 font-bold text-white text-lg text-center leading-tight tracking-tight">
                         Carte
                     </Text>
-                    <Pressable className="flex justify-center items-center w-12 h-12">
+                    <TouchableOpacity className="flex justify-center items-center w-12 h-12">
                         <MaterialIcons name="tune" size={24} color="#FFFFFF" />
-                    </Pressable>
+                    </TouchableOpacity>
                 </View>
 
                 {/* Main Content */}

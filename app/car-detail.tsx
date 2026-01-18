@@ -4,7 +4,7 @@ import { useColorScheme } from '@/hooks/use-color-scheme';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { router, useLocalSearchParams } from 'expo-router';
 import React, { useEffect, useState } from 'react';
-import { Dimensions, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Dimensions, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Animated, {
     useAnimatedStyle,
     useSharedValue,
@@ -148,7 +148,7 @@ const CarDetailScreen: React.FC = () => {
             <VStack className="flex-1">
                 {/* Top App Bar */}
                 <View className="flex flex-row justify-between items-center bg-background-light/80 dark:bg-background-dark/80 px-screenX pb-2">
-                    <Pressable
+                    <TouchableOpacity
                         className="flex justify-center items-center w-12 h-12 shrink-0"
                         onPress={() => router.back()}
                     >
@@ -157,11 +157,11 @@ const CarDetailScreen: React.FC = () => {
                             size={24}
                             color={isDark ? '#FFFFFF' : '#18181B'}
                         />
-                    </Pressable>
+                    </TouchableOpacity>
                     <Text className="flex-1 font-bold text-white text-lg text-center leading-tight tracking-tight">
                         Détails du Véhicule
                     </Text>
-                    <Pressable
+                    <TouchableOpacity
                         className="flex justify-center items-center w-12 h-12"
                         onPress={handleShare}
                     >
@@ -170,7 +170,7 @@ const CarDetailScreen: React.FC = () => {
                             size={24}
                             color={isDark ? '#FFFFFF' : '#18181B'}
                         />
-                    </Pressable>
+                    </TouchableOpacity>
                 </View>
 
                 {/* Main Content */}
@@ -260,7 +260,7 @@ const CarDetailScreen: React.FC = () => {
                                 ]}
                             />
 
-                            <Pressable
+                            <TouchableOpacity
                                 className="flex-1 px-4 py-3"
                                 onPress={() => setActiveTab('Description')}
                             >
@@ -279,8 +279,8 @@ const CarDetailScreen: React.FC = () => {
                                 >
                                     Description
                                 </Animated.Text>
-                            </Pressable>
-                            <Pressable
+                            </TouchableOpacity>
+                            <TouchableOpacity
                                 className="flex-1 px-4 py-3"
                                 onPress={() => setActiveTab('Spécifications')}
                             >
@@ -299,8 +299,8 @@ const CarDetailScreen: React.FC = () => {
                                 >
                                     Spécifications
                                 </Animated.Text>
-                            </Pressable>
-                            <Pressable
+                            </TouchableOpacity>
+                            <TouchableOpacity
                                 className="flex-1 px-4 py-3"
                                 onPress={() => setActiveTab('Avis')}
                             >
@@ -319,7 +319,7 @@ const CarDetailScreen: React.FC = () => {
                                 >
                                     Avis
                                 </Animated.Text>
-                            </Pressable>
+                            </TouchableOpacity>
                         </View>
                         <Animated.View
                             className="pt-4"
@@ -351,26 +351,26 @@ const CarDetailScreen: React.FC = () => {
                 <View className="right-0 bottom-0 left-0 z-10 absolute bg-background-dark/80 px-screenX pt-3 border-zinc-800 border-t w-full" style={[styles.footer, { paddingBottom: Math.max(insets.bottom, 16) }]}>
                     <View className="flex flex-col gap-3">
                         <View className="flex flex-row items-center gap-3">
-                            <Pressable
+                            <TouchableOpacity
                                 className="flex-1 bg-zinc-800 px-6 py-3.5 rounded-lg"
                                 onPress={handleBuy}
                             >
                                 <Text className="font-bold text-white text-base text-center">Acheter</Text>
-                            </Pressable>
-                            <Pressable
+                            </TouchableOpacity>
+                            <TouchableOpacity
                                 className="flex-1 bg-primary px-6 py-3.5 rounded-lg"
                                 onPress={handleRent}
                             >
                                 <Text className="font-bold text-white text-base text-center">
                                     Louer maintenant
                                 </Text>
-                            </Pressable>
+                            </TouchableOpacity>
                         </View>
-                        <Pressable onPress={handleMakeOffer}>
+                        <TouchableOpacity onPress={handleMakeOffer}>
                             <Text className="font-medium text-primary text-sm text-center">
                                 Faire une offre
                             </Text>
-                        </Pressable>
+                        </TouchableOpacity>
                     </View>
                 </View>
             </VStack>
